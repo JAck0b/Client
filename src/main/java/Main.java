@@ -41,5 +41,6 @@ public class Main extends Application {
     fields[9][12] = 2;
     Board.writeTmpTable(fields);
     launch(args);
+
   }
 }
