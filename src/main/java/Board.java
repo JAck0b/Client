@@ -1,4 +1,5 @@
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -40,8 +41,13 @@ public class Board {
       for (int j = 0; j < myCircles[i].length; j++) {
         myCircles[i][j] = new MyCircle();
         myCircles[i][j].setColor(tmpTable[k][i]);
-        myCircles[i][j].setActive(false);
-//        myCircles[i][j].setFill(Color.WHITE);
+        myCircles[i][j].setX(k);
+        myCircles[i][j].setY(i);
+        myCircles[i][j].setOnMouseClicked(e->{
+          //TODO Pomyśleć jak powinien wyglądać Connector z serwerem
+          ConnectorWithServer.sendPoint(e.getX(), e.getY());
+        });
+        myCircles[i][j].setFill(Color.WHITE);
 //        myCircles[i][j].setStroke(Color.BLACK);
         k++;
       }
@@ -83,7 +89,6 @@ public class Board {
   private void colorCorner(int number, Color color) {
     for (int i = 0; i < 10; i++) {
       corner[number][i].setFill(color);
-      corner[number][i].setActive(true);
     }
   }
 
