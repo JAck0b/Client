@@ -3,10 +3,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import logic.Bot;
+import logic.CheckMove;
+import logic.NormalBoard;
 
 public class Main extends Application {
 
-  static int[][] fields;
+
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -19,28 +22,28 @@ public class Main extends Application {
   }
 
   public static void main(String[] args) {
-    fields = new int[][]{
-      {0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-      {0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-      {0, 0, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-      {0, 0, 0, 0, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-      {4, 4, 4, 4, 1, 1, 1, 1, 1, 6, 6, 6, 6, 0, 0, 0, 0},
-      {0, 4, 4, 4, 1, 1, 1, 1, 1, 1, 6, 6, 6, 0, 0, 0, 0},
-      {0, 0, 4, 4, 1, 1, 1, 1, 1, 1, 1, 6, 6, 0, 0, 0, 0},
-      {0, 0, 0, 4, 1, 1, 1, 1, 1, 1, 1, 1, 6, 0, 0, 0, 0},
-      {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
-      {0, 0, 0, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 7, 0, 0, 0},
-      {0, 0, 0, 0, 3, 3, 1, 1, 1, 1, 1, 1, 1, 7, 7, 0, 0},
-      {0, 0, 0, 0, 3, 3, 3, 1, 1, 1, 1, 1, 1, 7, 7, 7, 0},
-      {0, 0, 0, 0, 3, 3, 3, 3, 1, 1, 1, 1, 1, 7, 7, 7, 7},
-      {0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0},
-      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0},
-      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0},
-      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0}
-    };
-    fields[9][12] = 2;
-    Board.writeTmpTable(fields);
-    launch(args);
 
+
+    NormalBoard nb = new NormalBoard(6);
+    nb.fields[9][12] =2;
+    nb.fields[4][1] =3;
+//    nb.fields[5][1] =2;
+
+    nb.printArray();
+    CheckMove checkMove = new CheckMove();
+    checkMove.setFields(nb.fields);
+    // checkMove.setXY(12,14);
+//    System.out.println("Czy można na : " + checkMove.check_move(4,4));
+    //   checkMove.printArray();
+//    checkMove.printPath(checkMove.getPath(4,4));
+
+    Bot bot = new Bot(checkMove.fields);
+    bot.setId(2);
+    // bot.find_destinaionXY();
+    // System.out.println("DEST: " + bot.destinationX + " " +bot.destinationY);
+    bot.calculate_best_move();
+
+    Board.writeTmpTable(nb.getFields());
+    launch(args);
   }
 }
