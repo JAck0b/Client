@@ -90,16 +90,19 @@ public class Board {
   }
   @FXML
   public void lineCommand(ActionEvent e) {
-    int x, y, color;
+    int x, y, color, quantity;
     Scanner in  = new Scanner(System.in);
-
-        System.out.println("Enter coordinate x.");
-        x = in.nextInt();
-        System.out.println("Enter coordinate y.");
-        y = in.nextInt();
-        System.out.println("Enter color");
-        color = in.nextInt();
-        tmpTable[y][x] = color;
+    System.out.println("Enter quantity.");
+    quantity = in.nextInt();
+    for (int i = 0; i < quantity; i++) {
+      System.out.println("Enter coordinate x.");
+      x = in.nextInt();
+      System.out.println("Enter coordinate y.");
+      y = in.nextInt();
+      System.out.println("Enter color");
+      color = in.nextInt();
+      tmpTable[y][x] = color;
+    }
 
 
         for (int i = 0; i < 17; i++) {

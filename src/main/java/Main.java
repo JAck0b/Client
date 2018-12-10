@@ -38,6 +38,7 @@ public class Main extends Application {
       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0},
       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0}
     };
+    fields[9][12] = 4;
     Board.writeTmpTable(fields);
     launch(args);
   }
