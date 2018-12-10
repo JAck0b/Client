@@ -1,9 +1,13 @@
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+
+import javax.sound.midi.Soundbank;
+import java.util.Scanner;
 
 public class Board {
   private MyCircle[][] myCircles = new MyCircle[17][];
@@ -20,12 +24,12 @@ public class Board {
   // Ta metoda przypisuje tablicę
   public static void writeTmpTable(int[][] table) {
     tmpTable = table;
-    for (int y = 0; y < 17; y++) {
-      for (int x = 0; x < 17; x++) {
-        System.out.print(tmpTable[x][y] + " ");
-      }
-      System.out.println();
-    }
+//    for (int y = 0; y < 17; y++) {
+//      for (int x = 0; x < 17; x++) {
+//        System.out.print(tmpTable[x][y] + " ");
+//      }
+//      System.out.println();
+//    }
   }
 
   //TODO Dopisanie odpowiadających wartośći w tabeli z serwera
@@ -43,11 +47,11 @@ public class Board {
         myCircles[i][j].setColor(tmpTable[k][i]);
         myCircles[i][j].setX(k);
         myCircles[i][j].setY(i);
-        myCircles[i][j].setOnMouseClicked(e->{
-          //TODO Pomyśleć jak powinien wyglądać Connector z serwerem
-          ConnectorWithServer.sendPoint(e.getX(), e.getY());
-        });
-        myCircles[i][j].setFill(Color.WHITE);
+//        myCircles[i][j].setOnMouseClicked(e->{
+//          //TODO Pomyśleć jak powinien wyglądać Connector z serwerem
+//          ConnectorWithServer.sendPoint(e.getX(), e.getY());
+//        });
+//        myCircles[i][j].setFill(Color.WHITE);
 //        myCircles[i][j].setStroke(Color.BLACK);
         k++;
       }
@@ -83,7 +87,34 @@ public class Board {
       }
       y += 40;
     }
+  }
+  @FXML
+  public void lineCommand(ActionEvent e) {
+    int x, y, color;
+    Scanner in  = new Scanner(System.in);
 
+        System.out.println("Enter coordinate x.");
+        x = in.nextInt();
+        System.out.println("Enter coordinate y.");
+        y = in.nextInt();
+        System.out.println("Enter color");
+        color = in.nextInt();
+        tmpTable[y][x] = color;
+
+
+        for (int i = 0; i < 17; i++) {
+          int k = 0;
+          while (tmpTable[k][i] == 0) {
+            k++;
+          }
+          for (int j = 0; j < myCircles[i].length; j++) {
+            myCircles[i][j].setColor(tmpTable[k][i]);
+
+            k++;
+          }
+        }
+
+        in.nextLine();
   }
 
   private void colorCorner(int number, Color color) {

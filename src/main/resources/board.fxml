@@ -20,6 +20,7 @@
     <!--</MenuBar>-->
 
     <Pane fx:id="pane" prefWidth="560" prefHeight="720" style="-fx-background-color: #B87333"  />
+    <Button text="Start Command Line" onAction="#lineCommand"/>
     <!--<VBox>-->
         <!--<Label text="Hello"/>-->
     <!--</VBox>-->
