@@ -10,32 +10,50 @@ public class Board {
     {28, 1}, {26, 2}, {24, 3}, {22, 4}, {4, 13}, {6, 12}, {8, 11}, {10, 10}, {12, 9},
     {10, 10}, {8, 11}, {6, 12}, {4, 13}, {22, 4}, {24, 3}, {26, 2}, {28, 1} };
   private MyCircle[][] corner;
+  private static int[][] tmpTable;
   @FXML
   Pane pane;
   @FXML
   HBox layout;
 
+  // Ta metoda przypisuje tablicę
+  public static void writeTmpTable(int[][] table) {
+    tmpTable = table;
+    for (int y = 0; y < 17; y++) {
+      for (int x = 0; x < 17; x++) {
+        System.out.print(tmpTable[x][y] + " ");
+      }
+      System.out.println();
+    }
+  }
+
   //TODO Dopisanie odpowiadających wartośći w tabeli z serwera
   @FXML
   public void initialize() {
-    corner = new MyCircle[6][10];
+//    corner = new MyCircle[6][10];
     for (int i = 0; i < 17; i++) {
       myCircles[i] = new MyCircle[coordinates[i][1]];
+      int k = 0;
+      while (tmpTable[k][i] == 0) {
+        k++;
+      }
       for (int j = 0; j < myCircles[i].length; j++) {
         myCircles[i][j] = new MyCircle();
+        myCircles[i][j].setColor(tmpTable[k][i]);
         myCircles[i][j].setActive(false);
-        myCircles[i][j].setFill(Color.WHITE);
-        myCircles[i][j].setStroke(Color.BLACK);
+//        myCircles[i][j].setFill(Color.WHITE);
+//        myCircles[i][j].setStroke(Color.BLACK);
+        k++;
       }
     }
 
-    initCorner();
-    colorCorner(0, Color.DARKBLUE);
-    colorCorner(1, Color.RED);
-    colorCorner(2, Color.GREEN);
-    colorCorner(3, Color.LIGHTBLUE);
-    colorCorner(4, Color.GRAY);
-    colorCorner(5, Color.YELLOW);
+//    initCorner();
+//    colorCorner(0, Color.DARKBLUE);
+//    colorCorner(1, Color.RED);
+//    colorCorner(2, Color.GREEN);
+//    colorCorner(3, Color.CORNFLOWERBLUE);
+//    colorCorner(4, Color.GRAY);
+//    colorCorner(5, Color.YELLOW);
     draw();
   }
 
@@ -51,6 +69,9 @@ public class Board {
         myCircles[i][j].setCenterX(x);
         myCircles[i][j].setCenterY(y);
         myCircles[i][j].setRadius(r);
+        myCircles[i][j].setOnMouseClicked(e-> {
+
+        });
         pane.getChildren().add(myCircles[i][j]);
         x += 40;
       }
