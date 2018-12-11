@@ -5,8 +5,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import logic.Bot;
+import logic.CheckMove;
+import logic.NormalBoard;
 
 import javax.sound.midi.Soundbank;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Board {
@@ -15,18 +19,20 @@ public class Board {
     {28, 1}, {26, 2}, {24, 3}, {22, 4}, {4, 13}, {6, 12}, {8, 11}, {10, 10}, {12, 9},
     {10, 10}, {8, 11}, {6, 12}, {4, 13}, {22, 4}, {24, 3}, {26, 2}, {28, 1} };
   private MyCircle[][] corner;
-  private static int[][] tmpTable;
+  private static int[][] fields;
+  ArrayList<Integer> p;
+  int j=0;
   @FXML
   Pane pane;
   @FXML
   HBox layout;
 
   // Ta metoda przypisuje tablicę
-  public static void writeTmpTable(int[][] table) {
-    tmpTable = table;
+  public static void writefields(int[][] table) {
+    fields = table;
 //    for (int y = 0; y < 17; y++) {
 //      for (int x = 0; x < 17; x++) {
-//        System.out.print(tmpTable[x][y] + " ");
+//        System.out.print(fields[x][y] + " ");
 //      }
 //      System.out.println();
 //    }
@@ -39,12 +45,12 @@ public class Board {
     for (int i = 0; i < 17; i++) {
       myCircles[i] = new MyCircle[coordinates[i][1]];
       int k = 0;
-      while (tmpTable[k][i] == 0) {
+      while (fields[k][i] == 0) {
         k++;
       }
       for (int j = 0; j < myCircles[i].length; j++) {
         myCircles[i][j] = new MyCircle();
-        myCircles[i][j].setColor(tmpTable[k][i]);
+        myCircles[i][j].setColor(fields[k][i]);
         myCircles[i][j].setX(k);
         myCircles[i][j].setY(i);
 //        myCircles[i][j].setOnMouseClicked(e->{
@@ -91,33 +97,80 @@ public class Board {
   @FXML
   public void lineCommand(ActionEvent e) {
     int x, y, color, quantity;
-    Scanner in  = new Scanner(System.in);
-    System.out.println("Enter quantity.");
-    quantity = in.nextInt();
-    for (int i = 0; i < quantity; i++) {
-      System.out.println("Enter coordinate x.");
-      x = in.nextInt();
-      System.out.println("Enter coordinate y.");
-      y = in.nextInt();
-      System.out.println("Enter color");
-      color = in.nextInt();
-      tmpTable[y][x] = color;
+//    Scanner in  = new Scanner(System.in);
+//    System.out.println("Enter quantity.");
+//    quantity = in.nextInt();
+//    for (int i = 0; i < quantity; i++) {
+//      System.out.println("Enter coordinate x.");
+//      x = in.nextInt();
+//      System.out.println("Enter coordinate y.");
+//      y = in.nextInt();
+//      System.out.println("Enter color");
+//      color = in.nextInt();
+//      fields[x][y] = color;
+//    }
+
+
+
+
+    CheckMove checkMove = new CheckMove();
+    checkMove.setFields(fields);
+    Bot bot = new Bot(checkMove.fields);
+
+   // if(j==0)
+      bot.setId(j+2);
+    //else
+      //bot.setId(5);
+    bot.calculate_best_move();
+   // p.clear();
+    p = bot.getPath_best_move();
+    for(int i=2; i< p.size();i=i+2){
+      fields[p.get(i)][p.get(i+1)] = 9;
     }
+     //if(j==0)
+    fields[p.get(0)][p.get(1)] = 8;
+//    else
+//       fields[p.get(0)][p.get(1)] =8;
 
 
-        for (int i = 0; i < 17; i++) {
-          int k = 0;
-          while (tmpTable[k][i] == 0) {
-            k++;
-          }
-          for (int j = 0; j < myCircles[i].length; j++) {
-            myCircles[i][j].setColor(tmpTable[k][i]);
+    //writefields(fields);
 
-            k++;
-          }
+    //checkMove.printArray();
+
+      for (int i = 0; i < 17; i++) {
+        int k = 0;
+        while (fields[k][i] == 0) {
+          k++;
         }
+        for (int j = 0; j < myCircles[i].length; j++) {
+          myCircles[i][j].setColor(fields[k][i]);
 
-        in.nextLine();
+          k++;
+        }
+      }
+
+
+    for(int i=2; i< p.size();i=i+2){
+      fields[p.get(i)][p.get(i+1)] = 1;
+    }
+    if(j==0)
+      fields[p.get(0)][p.get(1)] = 2;
+    else if (j == 1)
+      fields[p.get(0)][p.get(1)] = 3;
+    else if (j == 2)
+      fields[p.get(0)][p.get(1)] = 4;
+    else if (j == 3)
+      fields[p.get(0)][p.get(1)] = 5;
+    else if (j == 4)
+      fields[p.get(0)][p.get(1)] = 6;
+    else if (j == 5)
+      fields[p.get(0)][p.get(1)] = 7;
+
+
+        //in.nextLine();
+    j++;
+    j=j%6;
+
   }
 
   private void colorCorner(int number, Color color) {

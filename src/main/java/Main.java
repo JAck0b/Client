@@ -3,6 +3,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import logic.NormalBoard;
 
 public class Main extends Application {
 
@@ -39,7 +40,8 @@ public class Main extends Application {
       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0}
     };
     fields[9][12] = 4;
-    Board.writeTmpTable(fields);
+    NormalBoard nb = new NormalBoard(6);
+    Board.writefields(nb.fields);
     launch(args);
   }
 }
