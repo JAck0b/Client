@@ -31,7 +31,7 @@ public class MyCircle extends Circle {
     this.setStroke(Color.BLACK);
     switch (color) {
       case 1:
-        setFill(Color.WHITE);
+        setFill(Color.LIGHTGRAY);
         break;
       case 2:
         setFill(Color.DARKBLUE);
@@ -50,6 +50,12 @@ public class MyCircle extends Circle {
         break;
       case 7:
         setFill(Color.YELLOW);
+        break;
+      case 8:
+        setFill(Color.AQUA);
+        break;
+      case 9:
+        setFill(Color.MEDIUMSLATEBLUE);
         break;
     }
   }
