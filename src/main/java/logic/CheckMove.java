@@ -16,7 +16,7 @@ public class CheckMove {
     return y;
   }
 
-  public void setXY (int x, int y) {
+  public void setXY (int x, int y) {  //ROBI WSZYTKO TWORZY ZERUJE I OBLICZA POSSIBLE MOVE
     this.x = x;
     this.y = y;
     preapare_array_possible_move();
@@ -45,7 +45,7 @@ public class CheckMove {
             }
           }
           if (canhop && !possible_move[x - 2 * i][y].possible) { //czy spełnione warunki skoku i czy pole już nie znalezione (warunek końca rekurencji)
-            System.out.println("Mozna skoczyć na : " + (x - 2 * i) + " " + y);
+           // System.out.println("Mozna skoczyć na : " + (x - 2 * i) + " " + y);
             possible_move [x - 2 * i][y].setPossible(true);
             possible_move [x - 2 * i][y].setPreviousX(x); //ustawianie wartości z której można dotrzeć na dane pole
             possible_move [x - 2 * i][y].setPreviousY(y);
@@ -69,7 +69,7 @@ public class CheckMove {
             }
           }
           if (canhop && !possible_move[x + 2 * i][y].possible) { //czy spełnione warunki skoku i czy pole już nie znalezione (warunek końca rekurencji)
-            System.out.println("Mozna skoczyć na : " + (x + 2 * i) + " " + y);
+          //  System.out.println("Mozna skoczyć na : " + (x + 2 * i) + " " + y);
             possible_move[x + 2 * i][y].setPossible(true);
             possible_move [x + 2 * i][y].setPreviousX(x); //ustawianie wartości z której można dotrzeć na dane pole
             possible_move [x + 2 * i][y].setPreviousY(y);
@@ -96,7 +96,7 @@ public class CheckMove {
             }
           }
           if (canhop && !possible_move[x][y - 2 * i].possible) { //czy spełnione warunki skoku i czy pole już nie znalezione (warunek końca rekurencji)
-            System.out.println("Mozna skoczyć na : " + x + " " + (y - 2 * i));
+          //  System.out.println("Mozna skoczyć na : " + x + " " + (y - 2 * i));
             possible_move[x][y - 2 * i].setPossible(true);
             possible_move [x][y - 2 * i].setPreviousX(x); //ustawianie wartości z której można dotrzeć na dane pole
             possible_move [x][y - 2 * i].setPreviousY(y);
@@ -147,7 +147,7 @@ public class CheckMove {
             }
           }
           if (canhop && !possible_move[x - 2 * i][y - 2 * i].possible) {//czy spełnione warunki skoku i czy pole już nie znalezione (warunek końca rekurencji)
-            System.out.println("Mozna skoczyć na : " + (x - 2 *i)  + " " + (y - 2 *i) );
+            //System.out.println("Mozna skoczyć na : " + (x - 2 *i)  + " " + (y - 2 *i) );
             possible_move[x - 2 *i][y - 2 * i].setPossible(true);
             possible_move [x - 2 * i][y - 2 * i].setPreviousX(x); //ustawianie wartości z której można dotrzeć na dane pole
             possible_move [x - 2 * i][y - 2 * i].setPreviousY(y);
@@ -171,7 +171,7 @@ public class CheckMove {
             }
           }
           if (canhop && !possible_move[x + 2 * i][y + 2 * i].possible)  {//czy spełnione warunki skoku i czy pole już nie znalezione (warunek końca rekurencji)
-            System.out.println("Mozna skoczyć na : " + (x + 2 *i) + " " + (y  + 2 *i));
+           // System.out.println("Mozna skoczyć na : " + (x + 2 *i) + " " + (y  + 2 *i));
             possible_move[x + 2 *i][y + 2 * i].setPossible(true);
             possible_move [x + 2 * i][y + 2 * i].setPreviousX(x); //ustawianie wartości z której można dotrzeć na dane pole
             possible_move [x + 2 * i][y + 2 * i].setPreviousY(y);
@@ -202,18 +202,30 @@ public class CheckMove {
     cross_move(x,y,longhop, number_of_hop );
   }
   public void calculate_possible_move (){//potrzebne rozbicie bo po skoku nie ma możliwości ruchu o jeden
+    int help = fields[x][y];  //nie może skakać w rekurencji przez swój pionke
+    fields[x][y]=1;
+
+
     if(x-1 >= 0 && fields [x-1][y] == 1){
       possible_move [x-1][y].setPossible(true);
+//      possible_move [x-1][y].path.add(x);
+//      possible_move [x-1][y].path.add(y);
       possible_move [x-1][y].setPreviousX(x);
       possible_move [x-1][y].setPreviousY(y);
     }
     if(x+1 < fields.length && fields [x+1][y] == 1){
       possible_move [x+1][y].setPossible(true);
+//      possible_move [x+1][y].path.add(x);
+//      possible_move [x+1][y].path.add(y);
       possible_move [x+1][y].setPreviousX(x);
       possible_move [x+1][y].setPreviousY(y);
     }
+    //System.out.println("Pole " + fields [x][y-1]);
     if(y-1 >= 0 && fields [x][y-1] == 1){
+      //System.out.println("tutaj :" + x+ " " + y);
       possible_move [x][y-1].setPossible(true);
+//      possible_move [x][y-1].path.add(x);
+//      possible_move [x][y-1].path.add(y);
       possible_move [x][y-1].setPreviousX(x);
       possible_move [x][y-1].setPreviousY(y);
     }
@@ -235,6 +247,8 @@ public class CheckMove {
 
     possible_move[x][y].setPossible(true);//żeby rekurencja się nie cofała, PRZYPADEK MUSI BYĆ WYKLUCZONY PÓŹNIEJ
     hop(x,y,true,0);
+
+    fields[x][y]=help;
   }
   /**
    * @return array of possiblie move for current ball
@@ -245,7 +259,7 @@ public class CheckMove {
     return possible_move;
   }
   public boolean check_move (int check_x, int check_y){
-    if (possible_move [check_x][check_y].possible && x != check_x && y!= check_y)
+    if (possible_move [check_x][check_y].possible && !( x == check_x && y == check_y ))
       return true;
     else
       return false;

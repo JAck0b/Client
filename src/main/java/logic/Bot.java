@@ -2,14 +2,13 @@ package logic;
 
 import java.util.ArrayList;
 
-import static java.lang.Math.abs;
-import static java.lang.Math.min;
-import static java.lang.Math.scalb;
+
 
 public class Bot {
   int [][] fields;
   ArrayList<int[][]> bases;
   ArrayList<Integer> checkers_in_base;
+  ArrayList <Integer> path_best_move = new ArrayList<>();
   int id; //ID of player(nr pionków)
   int destinationX, destinationY;
   public Bot(int[][] fields){
@@ -22,10 +21,14 @@ public class Bot {
 
   }
 
+  public ArrayList<Integer> getPath_best_move() {
+    return path_best_move;
+  }
+
   public void add_bases(){
     bases = new ArrayList<>();
     int [][] base2 = new int[][]{ //pionki z nr2 dążą do ... i symetrycznie 5 do x=y y=x
-      {4,0},{4,1},{5,1},{4,2},{5,2},{5,2},{4,3},{5,3},{6,3},{7,3}
+      {4,0},{4,1},{5,1},{4,2},{5,2},{6,2},{7,3},{6,3},{5,3},{4,3}
     };
     bases.add(base2);
 
@@ -175,22 +178,17 @@ public class Bot {
     bot_move.setDestinationX(destinationX);
     bot_move.setDestinationY(destinationY);
 
-    ArrayList <Integer> path_best_move = new ArrayList<>();
+
     int proft = 0, max_profit = 0;
     for(int i = 0; i< checkers.size(); i = i + 2){  //po wszystkich pionkach
-      //System.out.println(i);
-      System.out.println("CHECKERS: " + checkers.get(i) + " " + checkers.get(i + 1) );
-//      bot_move.setX(checkers.get(i));
-//      bot_move.setY(checkers.get(i+1));
       proft = bot_move.calculate_best_move_of_one_checker(checkers.get(i),checkers.get(i+1));
-      System.out.println("profit: " + proft);
-     // System.out.println("po");
       if(proft > max_profit){
         max_profit = proft;
         path_best_move.clear();
         path_best_move = bot_move.getPath();
       }
     }
+    System.out.println("MAX PROFIT: " + max_profit);
     printPath(path_best_move);
   }
   public void printPath (ArrayList <Integer> path){
@@ -198,6 +196,4 @@ public class Bot {
       System.out.println("(" + path.get(i) + "," + path.get(i+1) + ")");
   }
 
-
-// todo wywalić pioni któe są na właściwym miejscy z chesrs
 }
