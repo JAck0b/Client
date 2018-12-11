@@ -1,10 +1,11 @@
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.util.Scanner;
+
+//TODO zrobić z tego NormalBoard, stworzyć abstrakcyjną klasę / interface Board dla zbioru metod oraz komunikacji z serwerem
 
 public class Board {
   private final int sizeOfTabel = 17;
@@ -17,7 +18,7 @@ public class Board {
   @FXML
   Pane pane;
   @FXML
-  HBox layout;
+  VBox layout;
 
   // Ta metoda przypisuje tablicę
   static void writeTmpTable(int[][] table) {
@@ -38,7 +39,6 @@ public class Board {
     refresh();
           //TODO Napisanie handlera dla MyCircle
 //        myCircles[i][j].setOnMouseClicked(e->{
-//          ConnectorWithServer.sendPoint(e.getX(), e.getY());
 //        });
 
     draw();
@@ -63,7 +63,7 @@ public class Board {
 
   private void draw() {
     int x;
-    int y = 30;
+    int y = 40;
     int quantity;
     int r = 20;
     for (int i = 0; i < sizeOfTabel; i++) {

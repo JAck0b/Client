@@ -13,16 +13,12 @@ public class Menu {
   @FXML
   VBox layout;
   @FXML
-  Button connect;
-  @FXML
-  Button join;
-  @FXML
-  Button newGame;
+  Button play;
+
 
   @FXML
-  public void connectHandler(ActionEvent e) {
-    join.setDisable(false);
-    newGame.setDisable(false);
+  public void playHandler(ActionEvent e) {
+    //TODO uruchamia okno / dialog z wyborem gier
   }
 
   @FXML
@@ -37,7 +33,7 @@ public class Menu {
     stage.initOwner(primaryStage);
     stage.initModality(Modality.WINDOW_MODAL);
     Parent root = FXMLLoader.load(getClass().getResource("board.fxml"));
-    Scene scene = new Scene(root, 600, 800);
+    Scene scene = new Scene(root, 560, 750);
     stage.setScene(scene);
     stage.setResizable(false);
     stage.setTitle("Board");
