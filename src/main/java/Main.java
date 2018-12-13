@@ -38,7 +38,14 @@ public class Main extends Application {
       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0},
       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0}
     };
+//    for (int y = 0 ; y < 17; y++) {
+//      for (int x = 0; x < 17; x++) {
+//        System.out.print(fields[x][y] + " ");
+//      }
+//      System.out.println();
+//    }
 //    fields[9][12] = 4;
+
     Board.writeTmpTable(fields);
     launch(args);
   }

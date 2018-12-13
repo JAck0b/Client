@@ -13,7 +13,7 @@
       fx:id="layout"
       prefHeight="600.0" prefWidth="600.0">
     <HBox>
-        <TextField editable="false" prefWidth="480"/>
+        <TextField fx:id="fieldText" editable="false" prefWidth="480"/>
         <Button text="Start Command Line" minWidth="200"  onAction="#lineCommand"/>
     </HBox>
     <Pane fx:id="pane" prefWidth="560" prefHeight="720" style="-fx-background-color: #B87333"  />

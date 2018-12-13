@@ -1,13 +1,16 @@
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+
 
 import java.util.Scanner;
 
 //TODO zrobić z tego NormalBoard, stworzyć abstrakcyjną klasę / interface Board dla zbioru metod oraz komunikacji z serwerem
 
 public class Board {
+  private String textek;
   private final int sizeOfTabel = 17;
   private MyCircle[][] myCircles = new MyCircle[sizeOfTabel][];
   private final int[][] coordinates = new int[][]{
@@ -19,6 +22,8 @@ public class Board {
   Pane pane;
   @FXML
   VBox layout;
+  @FXML
+  TextField fieldText;
 
   // Ta metoda przypisuje tablicę
   static void writeTmpTable(int[][] table) {
@@ -28,7 +33,7 @@ public class Board {
   //TODO Dopisanie odpowiadających wartośći w tabeli z serwera
   @FXML
   public void initialize() {
-//    corner = new MyCircle[6][10];
+    corner = new MyCircle[6][10];
     for (int i = 0; i < sizeOfTabel; i++) {
       myCircles[i] = new MyCircle[coordinates[i][1]];
 
@@ -85,29 +90,30 @@ public class Board {
 
   @FXML
   public void lineCommand() {
-    int x, y, color, quantity;
-    Scanner in = new Scanner(System.in);
-    System.out.println("Enter quantity.");
-    quantity = in.nextInt();
-    for (int i = 0; i < quantity; i++) {
-      System.out.println("Enter coordinate x.");
-      x = in.nextInt();
-      System.out.println("Enter coordinate y.");
-      y = in.nextInt();
-      System.out.println("Enter color");
-      color = in.nextInt();
-      tmpTable[x][y] = color;
-    }
-    refresh();
-
-
-
-    in.nextLine();
+    fieldText.setText(textek);
+//    int x, y, color, quantity;
+//    Scanner in = new Scanner(System.in);
+//    System.out.println("Enter quantity.");
+//    quantity = in.nextInt();
+//    for (int i = 0; i < quantity; i++) {
+//      System.out.println("Enter coordinate x.");
+//      x = in.nextInt();
+//      System.out.println("Enter coordinate y.");
+//      y = in.nextInt();
+//      System.out.println("Enter color");
+//      color = in.nextInt();
+//      tmpTable[x][y] = color;
+//    }
+//    refresh();
+//
+//
+//
+//    in.nextLine();
   }
 
   private void colorCorner(int number, Color color) {
     for (int i = 0; i < 10; i++) {
-      corner[number][i].setFill(color);
+      corner[number][i].setStroke(color);
     }
   }
 
@@ -180,4 +186,7 @@ public class Board {
     corner[5][9] = myCircles[4][3];
   }
 
+  public void setTextek(String textek) {
+    this.textek = textek;
+  }
 }

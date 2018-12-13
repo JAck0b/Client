@@ -37,7 +37,7 @@ public class MyCircle extends Circle {
         setFill(Color.DARKBLUE);
         break;
       case 3:
-        setFill(Color.RED);
+        setFill(Color.GREEN);
         break;
       case 4:
         setFill(Color.GREEN);

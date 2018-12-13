@@ -10,7 +10,8 @@
       fx:id="layout"
       fx:controller="Menu"
       prefHeight="400.0" prefWidth="600.0">
-    <Button fx:id="play" text="Play" style="-fx-background-color: #FFE5B4"/>
+    <Button fx:id="play" text="Play" style="-fx-background-color: #FFE5B4" onAction="#playHandler"/>
+    <Button fx:id="connect" text="Connect" style="-fx-background-color: #FFE5B4" onAction="#connectHandler"/>
     <Button fx:id="help" text="Help" style="-fx-background-color: #FFE5B4" onAction="#helpHandler"/>
     <Button fx:id="settings" text="Settings" style="-fx-background-color: #FFE5B4"/>
     <Button fx:id="exit" text="Exit" style="-fx-background-color: #FFE5B4" onAction="#exitHandler"/>

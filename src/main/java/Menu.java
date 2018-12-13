@@ -19,6 +19,22 @@ public class Menu {
   @FXML
   public void playHandler(ActionEvent e) {
     //TODO uruchamia okno / dialog z wyborem gier
+    Stage primaryStage = (Stage) layout.getScene().getWindow();
+    Stage stage = new Stage();
+    stage.initOwner(primaryStage);
+    stage.initModality(Modality.WINDOW_MODAL);
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("play.fxml"));
+    Parent root = fxmlLoader.getController();
+    Scene scene = new Scene(root, 500, 600);
+    stage.setScene(scene);
+    stage.setTitle("Games");
+    stage.setResizable(false);
+    stage.show();
+  }
+
+  @FXML
+  public void connectHandler() {
+
   }
 
   @FXML
@@ -32,7 +48,10 @@ public class Menu {
     Stage stage = new Stage();
     stage.initOwner(primaryStage);
     stage.initModality(Modality.WINDOW_MODAL);
-    Parent root = FXMLLoader.load(getClass().getResource("board.fxml"));
+    FXMLLoader fxmlLoader  = new FXMLLoader(getClass().getResource("board.fxml"));
+    Parent root = fxmlLoader.load();
+    Board controller = fxmlLoader.<Board>getController();
+    controller.setTextek("Działam i mam sie dobrze :)");
     Scene scene = new Scene(root, 560, 750);
     stage.setScene(scene);
     stage.setResizable(false);
