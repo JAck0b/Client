@@ -7,7 +7,7 @@ import logic.NormalBoard;
 
 public class Main extends Application {
 
-  static int[][] fields;
+
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -20,7 +20,7 @@ public class Main extends Application {
   }
 
   public static void main(String[] args) {
-    int number_of_players = 6;
+    int number_of_players = 2;
     NormalBoard nb = new NormalBoard(number_of_players);
     Board.writefields(nb.fields);
     Board.number_of_players = number_of_players;
