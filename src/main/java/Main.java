@@ -25,6 +25,5 @@ public class Main extends Application {
     Board.writefields(nb.fields);
     Board.number_of_players = number_of_players;
     launch(args);
-
   }
 }

@@ -1,4 +1,3 @@
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -15,6 +14,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Board {
+
   /**
    * Input from server.
    */
@@ -24,10 +24,27 @@ public class Board {
    * Output into server.
    */
   private PrintWriter out;
-  private MyCircle[][] myCircles = new MyCircle[17][];
-  private final int[][] coordinates = new int[][] {
+
+  /**
+   * Size of table which contain representation of this Board.
+   */
+  private final int sizeOfTable = 17;
+
+  /**
+   * Table with all fields on the board.
+   */
+  private MyCircle[][] myCircles = new MyCircle[sizeOfTable][];
+
+  /**
+   * Coordinates of all rows on the board.
+   */
+  private final int[][] coordinates = new int[][]{
     {28, 1}, {26, 2}, {24, 3}, {22, 4}, {4, 13}, {6, 12}, {8, 11}, {10, 10}, {12, 9},
-    {10, 10}, {8, 11}, {6, 12}, {4, 13}, {22, 4}, {24, 3}, {26, 2}, {28, 1} };
+    {10, 10}, {8, 11}, {6, 12}, {4, 13}, {22, 4}, {24, 3}, {26, 2}, {28, 1}};
+
+  /**
+   * Table of all homes on the board.
+   */
   private MyCircle[][] corner;
 
   private static int[][] fields;
@@ -50,17 +67,6 @@ public class Board {
   @FXML
   Button finish;
 
-  public void setOut(PrintWriter out) {
-    this.out = out;
-  }
-
-  public void setIn(BufferedReader in) {
-    this.in = in;
-  }
-  @FXML
-  public void finishHandler() {
-
-  }
   // Ta metoda przypisuje tablicę
   static void writefields(int[][] table) {
     fields = table;
@@ -170,7 +176,10 @@ public class Board {
 
 
     draw();
+
   }
+
+
 
   private void draw() {
     int x;
@@ -190,6 +199,12 @@ public class Board {
       y += 40;
     }
   }
+
+  @FXML
+  public void finishHandler() {
+
+  }
+
   @FXML
   public void readyHandler() {
     String input;
@@ -202,6 +217,8 @@ public class Board {
 
     finish.setDisable(false);
     ready.setDisable(true);
+    finish.requestFocus();
+
   }
 
   private void colorCorner() {
@@ -213,7 +230,7 @@ public class Board {
     }
   }
   @FXML
-  public void lineCommand(ActionEvent e) {
+  public void lineCommand() {
    // CheckMove checkMove = new CheckMove(true);
     //checkMove.setFields(fields);
     Bot bot = new Bot(fields,true);
@@ -384,10 +401,11 @@ public class Board {
     corner[2][9] = myCircles[4][3];
   }
 
+  public void setOut(PrintWriter out) {
+    this.out = out;
+  }
 
-//  @FXML
-//  public void endHandler(ActionEvent e) {
-//    Stage stage = (Stage) layout.getScene().getWindow();
-//    stage.close();
-//  }
+  public void setIn(BufferedReader in) {
+    this.in = in;
+  }
 }
