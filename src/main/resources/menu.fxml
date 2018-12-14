@@ -2,6 +2,7 @@
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       alignment="CENTER"
@@ -10,9 +11,9 @@
       fx:id="layout"
       fx:controller="Menu"
       prefHeight="400.0" prefWidth="600.0">
-    <Button fx:id="connect" text="Connect" style="-fx-background-color: #FFE5B4" onAction="#connectHandler"/>
-    <Button fx:id="newGame" text="New Game" disable="true" style="-fx-background-color: #FFE5B4"/>
-    <Button fx:id="join" text="Join to Game." disable="true" style="-fx-background-color: #FFE5B4"/>
+    <TextField fx:id="serverAddress" prefWidth="100"/>
+    <!--<Button fx:id="newGame" text="New Game" style="-fx-background-color: #FFE5B4"/>-->
+    <Button fx:id="connect" text="Connect and Play" style="-fx-background-color: #FFE5B4" onAction="#playHandler"/>
     <Button fx:id="help" text="Help" style="-fx-background-color: #FFE5B4" onAction="#helpHandler"/>
     <Button fx:id="settings" text="Settings" style="-fx-background-color: #FFE5B4"/>
     <Button fx:id="exit" text="Exit" style="-fx-background-color: #FFE5B4" onAction="#exitHandler"/>
