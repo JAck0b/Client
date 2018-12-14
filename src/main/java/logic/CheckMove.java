@@ -260,7 +260,7 @@ public class CheckMove {
    * 1 : possible move
    * 0 : not possible move
    */
-  PossibleMove [][] getMove_option() {
+  PossibleMove [][] getPossible_move() {
     return possible_move;
   }
   private boolean check_move(int check_x, int check_y){

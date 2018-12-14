@@ -249,9 +249,8 @@ public class Board {
       }
     }
     totalsteps++;
-//todo czy krowkolwiek ma ruch jak nie to koniec albo 3 skipy
     //todo testy
-    //todo canhop redundant? in check move
+
     for(int i = 0; i < 6; i++)
       System.out.print(number_of_skip_by_id[i] + " ");
     System.out.println();
