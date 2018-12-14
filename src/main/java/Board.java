@@ -167,6 +167,12 @@ public class Board {
 
           System.out.println("x = " + ((MyCircle)e.getSource()).getX());
           System.out.println("y = " + ((MyCircle)e.getSource()).getY());
+          out.println(((MyCircle)e.getSource()).getX());
+          try {
+            in.readLine();
+          } catch (IOException e1) {
+            e1.printStackTrace();
+          }
         });
       }
     }

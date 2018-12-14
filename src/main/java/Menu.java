@@ -63,6 +63,8 @@ public class Menu {
     NewGame newGame = fxmlLoader.getController();
     newGame.setOut(out);
     newGame.setSocket(socket);
+    newGame.setServerAddress(serverAddress.getText());
+    newGame.setPORT(PORT);
     Scene scene = new Scene(root, 500, 600);
     stage.setScene(scene);
     stage.setTitle("Games");
