@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -76,6 +77,10 @@ public class Board {
 
       for (int j = 0; j < myCircles[i].length; j++) {
         myCircles[i][j] = new MyCircle();
+        myCircles[i][j].setOnMouseClicked(e->{
+          System.out.println("x = " + ((MyCircle)e.getSource()).getX());
+          System.out.println("y = " + ((MyCircle)e.getSource()).getY());
+        });
       }
     }
     refresh();
@@ -138,9 +143,10 @@ public class Board {
     } catch (IOException e) {
       e.printStackTrace();
     }
-
     finish.setDisable(false);
     ready.setDisable(true);
+    finish.requestFocus();
+
   }
 
   private void colorCorner() {
