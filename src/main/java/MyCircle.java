@@ -54,4 +54,27 @@ public class MyCircle extends Circle {
     }
   }
 
+  public void setHomes() {
+    switch (color) {
+      case 2:
+        setStroke(Color.DARKBLUE);
+        break;
+      case 3:
+        setStroke(Color.RED);
+        break;
+      case 4:
+        setStroke(Color.GREEN);
+        break;
+      case 5:
+        setStroke(Color.CORNFLOWERBLUE);
+        break;
+      case 6:
+        setStroke(Color.GRAY);
+        break;
+      case 7:
+        setStroke(Color.YELLOW);
+        break;
+    }
+  }
+
 }

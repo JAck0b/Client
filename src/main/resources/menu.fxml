@@ -11,7 +11,7 @@
       fx:id="layout"
       fx:controller="Menu"
       prefHeight="400.0" prefWidth="600.0">
-    <TextField fx:id="serverAdress" prefWidth="100"/>
+    <TextField fx:id="serverAddress" prefWidth="100"/>
     <!--<Button fx:id="newGame" text="New Game" style="-fx-background-color: #FFE5B4"/>-->
     <Button fx:id="connect" text="Connect and Play" style="-fx-background-color: #FFE5B4" onAction="#playHandler"/>
     <Button fx:id="help" text="Help" style="-fx-background-color: #FFE5B4" onAction="#helpHandler"/>
