@@ -111,17 +111,17 @@ public class NormalBoard {
   }
 
   public static void main(String[] args) {
-    NormalBoard nb = new NormalBoard(2);
-    CheckMove checkMove = new CheckMove();
-    checkMove.setFields(nb.fields);
-    Bot bot = new Bot(checkMove.fields);
+//    NormalBoard nb = new NormalBoard(2);
+//    CheckMove checkMove = new CheckMove(true);
+//    checkMove.setFields(nb.fields);
+//    Bot bot = new Bot(checkMove.fields,false);
 
-    //nb.fields[9][9]=9;
-    nb.printArray();
-
-
-    bot.setId(2);
-    bot.calculate_best_move();
+//    //nb.fields[9][9]=9;
+//    nb.printArray();
+//
+//
+//    bot.setId(2);
+//    bot.calculate_best_move();
 
 
 
