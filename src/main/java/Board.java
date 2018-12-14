@@ -1,17 +1,12 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import logic.Bot;
 import logic.CheckMove;
-import logic.NormalBoard;
 
-import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Board {
   private MyCircle[][] myCircles = new MyCircle[17][];
@@ -19,16 +14,23 @@ public class Board {
     {28, 1}, {26, 2}, {24, 3}, {22, 4}, {4, 13}, {6, 12}, {8, 11}, {10, 10}, {12, 9},
     {10, 10}, {8, 11}, {6, 12}, {4, 13}, {22, 4}, {24, 3}, {26, 2}, {28, 1} };
   private MyCircle[][] corner;
+
   private static int[][] fields;
-  ArrayList<Integer> p;
-  int j=0;
+  private int [] number_of_skip_by_id = {0,0,0,0,0,0};
+  private boolean [] still_in_game = {true,true,true,true,true,true};
+  private int totalsteps =0;  //number of move in game
+  private ArrayList<int[][]> bases;
+  private ArrayList <Integer> winners = new ArrayList<>();
+  static int number_of_players;
+
+
   @FXML
   Pane pane;
   @FXML
   HBox layout;
 
   // Ta metoda przypisuje tablicę
-  public static void writefields(int[][] table) {
+  static void writefields(int[][] table) {
     fields = table;
 //    for (int y = 0; y < 17; y++) {
 //      for (int x = 0; x < 17; x++) {
@@ -36,6 +38,65 @@ public class Board {
 //      }
 //      System.out.println();
 //    }
+  }
+  private void add_bases(){
+    bases = new ArrayList<>();
+    int [][] base2 = new int[][]{ //pionki z nr2 dążą do ... i symetrycznie 7 do x=y y=x
+      {4,0},{4,1},{5,1},{4,2},{5,2},{6,2},{7,3},{4,3},{6,3},{5,3}
+    };
+    bases.add(base2);
+
+    int [][] base3 = new int[][]{   //symetrai x=y y=x dla 6
+      {12,4},{11,4},{12,5},{11,5},{10,4},{12,6},{9,4},{12,7},{10,5},{11,6}
+    };
+    bases.add(base3);
+
+    int [][] base4 = new int[][]{   //symetrai x=y y=x dla 5
+      {16,12},{15,12},{15,11},{14,12},{14,11},{14,10},{13,12},{13,9},{13,11},{13,10}
+    };
+    bases.add(base4);
+  }
+  private boolean all_in_base(int id){
+    int checkX =0, checkY =0;
+    for(int i=0; i < 10 ; i++ ){
+      switch (id) {
+        case 2: {
+          checkX = bases.get(0)[i][0];
+          checkY = bases.get(0)[i][1];
+          break;
+        }
+        case 3: {
+          checkX = bases.get(1)[i][0];
+          checkY = bases.get(1)[i][1];
+          break;
+        }
+        case 4: {
+          checkX = bases.get(2)[i][0];
+          checkY = bases.get(2)[i][1];
+          break;
+        }
+        case 5: {
+          checkX = bases.get(2)[i][1];
+          checkY = bases.get(2)[i][0];
+          break;
+        }
+        case 6: {
+          checkX = bases.get(1)[i][1];
+          checkY = bases.get(1)[i][0];
+          break;
+        }
+        case 7: {
+          checkX = bases.get(0)[i][1];
+          checkY = bases.get(0)[i][0];
+          break;
+        }
+      }
+      if (fields[checkX][checkY] != id)
+        return false;
+
+    }
+    return true;
+
   }
 
   //TODO Dopisanie odpowiadających wartośći w tabeli z serwera
@@ -96,81 +157,104 @@ public class Board {
   }
   @FXML
   public void lineCommand(ActionEvent e) {
-    int x, y, color, quantity;
-//    Scanner in  = new Scanner(System.in);
-//    System.out.println("Enter quantity.");
-//    quantity = in.nextInt();
-//    for (int i = 0; i < quantity; i++) {
-//      System.out.println("Enter coordinate x.");
-//      x = in.nextInt();
-//      System.out.println("Enter coordinate y.");
-//      y = in.nextInt();
-//      System.out.println("Enter color");
-//      color = in.nextInt();
-//      fields[x][y] = color;
-//    }
-
-
-
-
-    CheckMove checkMove = new CheckMove();
-    checkMove.setFields(fields);
-    Bot bot = new Bot(checkMove.fields);
-
-   // if(j==0)
-      bot.setId(j+2);
-    //else
-      //bot.setId(5);
-    bot.calculate_best_move();
-   // p.clear();
-    p = bot.getPath_best_move();
-    for(int i=2; i< p.size();i=i+2){
-      fields[p.get(i)][p.get(i+1)] = 9;
-    }
-     //if(j==0)
-    fields[p.get(0)][p.get(1)] = 8;
-//    else
-//       fields[p.get(0)][p.get(1)] =8;
-
-
-    //writefields(fields);
-
-    //checkMove.printArray();
-
-      for (int i = 0; i < 17; i++) {
-        int k = 0;
-        while (fields[k][i] == 0) {
-          k++;
+   // CheckMove checkMove = new CheckMove(true);
+    //checkMove.setFields(fields);
+    Bot bot = new Bot(fields,true);
+    add_bases();
+    bot.setBases(bases);
+    int steps = totalsteps %number_of_players;
+    int id = 0;
+    //rusza botami w kolejności zegara
+    switch (number_of_players){
+      case (6):{
+        id=steps +2;
+        break;
+      }
+      case (5):{
+        if(steps ==4)
+          id = 7;
+        else
+          id = steps +2;
+        break;
+      }
+      case (4):{
+        if(steps ==0)
+          id = 2;
+        else if(steps == 3)
+          id = 7;
+        else
+          id = steps +3;
         }
-        for (int j = 0; j < myCircles[i].length; j++) {
-          myCircles[i][j].setColor(fields[k][i]);
+        break;
+      case (3): {
+        if(steps ==0)
+          id = 2;
+        else if(steps == 1)
+          id = 5;
+        else
+          id = 7;
+        break;
+      }
+      case (2): {
+        if(steps ==0)
+          id = 2;
+        else
+          id = 5;
+      }
+    }
+    System.out.println(id);
+    if(still_in_game[id-2]){
+      bot.setId(id);
+      bot.setSteps_in_game(totalsteps/number_of_players);
+      bot.calculate_best_move();
+      //czy ruch pomijany
+      if(!bot.isBot_skip_move()){
+        ArrayList<Integer> p; //path
+        p = bot.getPath_best_move();
 
-          k++;
+
+        //aktualizacja pola na które się ruszył pionkek ustalamy id pionka na tym polu
+        //ustawianie kolorów ścieżki
+        fields[p.get(0)][p.get(1)] = id;
+        for(int i=2; i< p.size();i=i+2)
+          fields[p.get(i)][p.get(i+1)] = (id)*10;
+
+
+        //refresh
+        for (int i = 0; i < 17; i++) {
+          int k = 0;
+          while (fields[k][i] == 0) {
+            k++;
+          }
+          for (int j = 0; j < myCircles[i].length; j++) {
+            myCircles[i][j].setColor(fields[k][i]);
+            k++;
+          }
+        }
+        //ścieżka wraca jako normalne pole
+        for(int i=2; i< p.size();i=i+2){
+          fields[p.get(i)][p.get(i+1)] = 1;
+        }
+        if(all_in_base(id)){
+          still_in_game[id-2] = false;
+          winners.add(id);
         }
       }
-
-
-    for(int i=2; i< p.size();i=i+2){
-      fields[p.get(i)][p.get(i+1)] = 1;
+      else {
+        number_of_skip_by_id [id-2] = number_of_skip_by_id [id-2] + 1;
+        // gdy 3 skipy dany plater nie gra
+        if(number_of_skip_by_id [id-2] >= 3) {
+          still_in_game[id-2] = false;
+        }
+      }
     }
-    if(j==0)
-      fields[p.get(0)][p.get(1)] = 2;
-    else if (j == 1)
-      fields[p.get(0)][p.get(1)] = 3;
-    else if (j == 2)
-      fields[p.get(0)][p.get(1)] = 4;
-    else if (j == 3)
-      fields[p.get(0)][p.get(1)] = 5;
-    else if (j == 4)
-      fields[p.get(0)][p.get(1)] = 6;
-    else if (j == 5)
-      fields[p.get(0)][p.get(1)] = 7;
-
-
-        //in.nextLine();
-    j++;
-    j=j%6;
-
+    totalsteps++;
+//todo czy krowkolwiek ma ruch jak nie to koniec albo 3 skipy
+    //todo testy
+    //todo canhop redundant? in check move
+    for(int i = 0; i < 6; i++)
+      System.out.print(number_of_skip_by_id[i] + " ");
+    System.out.println();
   }
 
   private void colorCorner(int number, Color color) {

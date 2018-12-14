@@ -49,13 +49,25 @@ public class MyCircle extends Circle {
         setFill(Color.GRAY);
         break;
       case 7:
+        setFill(Color.GOLD);
+        break;
+      case 20:
+        setFill(Color.LIGHTBLUE);
+        break;
+      case 30:
+        setFill(Color.LIGHTCORAL);
+        break;
+      case 40:
+        setFill(Color.LIGHTGREEN);
+        break;
+      case 50:
+        setFill(Color.CYAN);
+        break;
+      case 60:
+        setFill(Color.DARKGRAY);
+        break;
+      case 70:
         setFill(Color.YELLOW);
-        break;
-      case 8:
-        setFill(Color.AQUA);
-        break;
-      case 9:
-        setFill(Color.MEDIUMSLATEBLUE);
         break;
     }
   }
