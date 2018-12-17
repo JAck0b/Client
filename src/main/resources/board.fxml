@@ -13,8 +13,7 @@
       fx:id="layout"
       prefHeight="600.0" prefWidth="600.0">
     <HBox>
-        <TextField fx:id="status" editable="false" prefWidth="480"/>
-        <Button fx:id="finish" text="Finish" minWidth="100"  onAction="#finishHandler"/>
+        <TextField fx:id="status" editable="false" prefWidth="300" />
         <Button fx:id="skip" text="Skip" minWidth="100" onAction="#skipHandler"/>
     </HBox>
     <Pane fx:id="pane" prefWidth="560" prefHeight="720" style="-fx-background-color: #B87333"  />

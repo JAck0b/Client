@@ -1,4 +1,6 @@
 import javafx.application.Platform;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,45 +22,66 @@ public class BoardListener extends Thread {
    */
   private BufferedReader in;
 
+  /**
+   * Status text field.
+   */
+  private TextField status;
 
 
-  public BoardListener(Board board, BufferedReader in) {
+
+  public BoardListener(Board board, BufferedReader in, TextField status) {
     this.fields = Board.fields;
     this.board = board;
     this.in = in;
+    this.status = status;
   }
 
   @Override
   public void run() {
     String input = null;
+    if (in == null) {
+      System.out.println("Null");
+    }
     while(true) {
       try {
-        while(input == null) {
+//        while(input == null) {
           input = in.readLine();
-          System.out.println(input);
-        }
+//          System.out.println("Przed");
+          System.out.println("Komenda = " + input);
+//          System.out.println("PO1");
+//        }
         if (input.startsWith("BOARD")) {
           System.out.println(input);
           input = in.readLine();
-          String tmp = input;
+//          System.out.println("PO2");
+          String finalInput = input;
           Platform.runLater(() -> {
-            setFieldsfromString(fields, tmp);
+            setFieldsfromString(fields, finalInput);
             board.refresh();
           });
-          System.out.println(input);
+//          System.out.println(input);
+          setFieldsfromString(fields, input);
           for (int y = 0; y < 17; y++) {
             for (int x = 0; x < 17; x++) {
-              System.out.print(fields[x][y]);
+              System.out.print(board.fields[x][y] + " ");
             }
             System.out.println();
           }
+
         } else if (input.startsWith("PLAYER")) {
           System.out.println(input);
+
+          String finalInput = input;
+          Platform.runLater(() -> {
+            status.setText(finalInput);
+          });
         } else if (input.startsWith("STEPS")) {
           System.out.println(input);
+
         }
       } catch (IOException e) {
-        e.printStackTrace();
+        System.out.println("Server is disconnected.");
+        System.exit(1);
       }
     }
   }

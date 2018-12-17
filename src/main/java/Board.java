@@ -60,18 +60,11 @@ public class Board {
   TextField status;
   @FXML
   Button skip;
-  @FXML
-  Button finish;
+
 
   // Ta metoda przypisuje tablicę
   static void writefields(int[][] table) {
     fields = table;
-//    for (int y = 0; y < 17; y++) {
-//      for (int x = 0; x < 17; x++) {
-//        System.out.print(fields[x][y] + " ");
-//      }
-//      System.out.println();
-//    }
   }
 
 
@@ -89,14 +82,12 @@ public class Board {
         k++;
       }
     }
-//    System.out.println("Hello");
   }
 
   //TODO Dopisanie odpowiadających wartośći w tabeli z serwera
   @FXML
   public void initialize() {
 
-//    finish.setDisable(true);
     corner = new MyCircle[6][10];
     for (int i = 0; i < fields.length; i++) {
       myCircles[i] = new MyCircle[coordinates[i][1]];
@@ -104,37 +95,31 @@ public class Board {
       for (int j = 0; j < myCircles[i].length; j++) {
         myCircles[i][j] = new MyCircle();
         myCircles[i][j].setOnMouseClicked(e -> {
-
-          System.out.println("x = " + ((MyCircle) e.getSource()).getX());
-          System.out.println("y = " + ((MyCircle) e.getSource()).getY());
-          out.println("COR " + ((MyCircle)e.getSource()).getX()+ " " + ((MyCircle)e.getSource()).getY());
+          int x = ((MyCircle) e.getSource()).getX();
+          int y = ((MyCircle) e.getSource()).getY();
+          System.out.println("x = " + x);
+          System.out.println("y = " + y);
+          System.out.println("pole = " + fields[x][y]);
+          out.println("COR " + x + " " + y);
+          System.out.println("COR " + x + " " + y);
 
         });
       }
     }
     refresh();
-//    refresh();
-    //TODO Napisanie handlera dla MyCircle
+
+    // TODO Napisanie handlera dla MyCircle
 
 
     draw();
     colorCorner();
-    task();
 
   }
 
   void task() {
-    BoardListener thread = new BoardListener(this, in);
+    BoardListener thread = new BoardListener(this, in, status);
     thread.setDaemon(true);
     thread.start();
-  }
-
-  void start() {
-    int i = 0;
-    while (i < 10) {
-      System.out.println("Spokojnie Kuba :)");
-//      i++;
-    }
   }
 
 
@@ -158,25 +143,11 @@ public class Board {
     }
   }
 
-  @FXML
-  public void finishHandler() {
 
-  }
 
   @FXML
   public void skipHandler() {
-    start();
-//    String input;
-//    try {
-//      input = in.readLine();
-//      status.setText(input);
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
 
-//    finish.setDisable(false);
-//    ready.setDisable(true);
-//    finish.requestFocus();
 
   }
 

@@ -1,3 +1,4 @@
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,6 +8,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,8 +46,8 @@ public class NewGame {
           boot.setMin(i%2);
           boot.setValue(0);
           boot.setMajorTickUnit(2);
-          System.out.println("Boot = " + (int)boot.getValue());
-          System.out.println("Player = " + (int)player.getValue());
+//          System.out.println("Boot = " + (int)boot.getValue());
+//          System.out.println("Player = " + (int)player.getValue());
         } );
 
   }
@@ -74,6 +76,17 @@ public class NewGame {
     Board controller = fxmlLoader.<Board>getController();
     controller.setOut(out);
     controller.setIn(in);
+    stage.addEventHandler(WindowEvent.WINDOW_SHOWING, new  EventHandler<WindowEvent>()
+    {
+      @Override
+      public void handle(WindowEvent window)
+      {
+        controller.task();
+      }
+    });
+    if (in == null) {
+      System.out.println("New game null");
+    }
     Scene scene = new Scene(root, 560, 750);
     stage.setScene(scene);
     stage.setResizable(false);

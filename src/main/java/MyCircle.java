@@ -36,19 +36,19 @@ public class MyCircle extends Circle {
         setFill(Color.DARKBLUE);
         break;
       case 3:
-        setFill(Color.RED);
+        setFill(Color.DARKRED);
         break;
       case 4:
-        setFill(Color.GREEN);
+        setFill(Color.DARKGREEN);
         break;
       case 5:
-        setFill(Color.CORNFLOWERBLUE);
+        setFill(Color.DARKCYAN);
         break;
       case 6:
-        setFill(Color.GRAY);
+        setFill(Color.INDIGO);
         break;
       case 7:
-        setFill(Color.GOLD);
+        setFill(Color.SADDLEBROWN);
         break;
       case 20:
         setFill(Color.LIGHTBLUE);
@@ -60,13 +60,31 @@ public class MyCircle extends Circle {
         setFill(Color.LIGHTGREEN);
         break;
       case 50:
-        setFill(Color.CYAN);
+        setFill(Color.PALETURQUOISE);
         break;
       case 60:
-        setFill(Color.DARKGRAY);
+        setFill(Color.ORCHID);
         break;
       case 70:
-        setFill(Color.YELLOW);
+        setFill(Color.SANDYBROWN);
+        break;
+      case 200:
+        setFill(Color.CORNFLOWERBLUE);
+        break;
+      case 300:
+        setFill(Color.CRIMSON);
+        break;
+      case 400:
+        setFill(Color.MEDIUMSEAGREEN);
+        break;
+      case 500:
+        setFill(Color.TURQUOISE);
+        break;
+      case 600:
+        setFill(Color.DARKVIOLET);
+        break;
+      case 700:
+        setFill(Color.DARKGOLDENROD);
         break;
     }
   }

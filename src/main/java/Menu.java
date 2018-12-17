@@ -46,8 +46,8 @@ public class Menu {
     Board controller = fxmlLoader.<Board>getController();
     controller.setOut(out);
     controller.setIn(in);
-    controller.start();
-    System.out.println("jestem");
+//    controller.start();
+//    System.out.println("jestem");
 //    out.println("Ready");
     Scene scene = new Scene(root, 560, 750);
     stage.setScene(scene);
@@ -56,7 +56,7 @@ public class Menu {
     stage.show();
   }
 
-  private void newGame(PrintWriter out, Socket socket) throws Exception {
+  private void newGame() throws Exception {
     //TODO uruchamia okno / dialog z wyborem gier
     Stage primaryStage = (Stage) layout.getScene().getWindow();
     Stage stage = new Stage();
@@ -69,9 +69,9 @@ public class Menu {
     newGame.setSocket(socket);
     newGame.setServerAddress(serverAddress.getText());
     newGame.setPORT(PORT);
-    Scene scene = new Scene(root, 500, 600);
+    Scene scene = new Scene(root, 300, 330);
     stage.setScene(scene);
-    stage.setTitle("Games");
+    stage.setTitle("New Game");
     stage.setResizable(false);
     stage.show();
   }
@@ -88,7 +88,7 @@ public class Menu {
       input = in.readLine();
       System.out.println(input);
       if (input.equals("ADMINISTRATOR")) {
-        newGame(out, socket);
+        newGame();
       } else if (input.equals("NORMAL BOARD")) {
         createBoard();
       }
@@ -133,22 +133,7 @@ public class Menu {
   }
 
   @FXML
-  public void settingHandler() throws IOException {
-    Stage primaryStage = (Stage) layout.getScene().getWindow();
-    Stage stage = new Stage();
-    stage.initOwner(primaryStage);
-    stage.initModality(Modality.WINDOW_MODAL);
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newGame.fxml"));
-    Parent root = fxmlLoader.load();
-    NewGame newGame = fxmlLoader.getController();
-    newGame.setOut(out);
-    newGame.setSocket(socket);
-    newGame.setServerAddress(serverAddress.getText());
-    newGame.setPORT(PORT);
-    Scene scene = new Scene(root, 300, 330);
-    stage.setScene(scene);
-    stage.setTitle("New Game");
-    stage.setResizable(false);
-    stage.show();
+  public void settingHandler() throws Exception {
+    newGame();
   }
 }
