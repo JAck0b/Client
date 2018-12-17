@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="layout" prefHeight="400.0" prefWidth="600.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NewGame">
-    <Button onAction="#oneOneHandler" text="1 player and 1 boot" />
-    <Button onAction="#oneThreeHandler" text="1 player and 3 boots" />
-    <Button onAction="#twoHandler" text="2 players" />
-    <Button onAction="#twoFourHandler" text="2 players and 4 boots" />
-    <Button onAction="#threeThreeHandler" text="3 players and 3 boots" />
-    <Button onAction="#sixHandler" text="6 players" />
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<VBox fx:id="layout" prefHeight="300.0" prefWidth="350.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.172-ea"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="NewGame" style="-fx-background-color: #B87333">
+    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+    <Label style="-fx-font: 20 arial;" text="Player"/>
+    <Slider fx:id="player" blockIncrement="1" cache="true" majorTickUnit="1" max="6" min="0" minorTickCount="0"
+            showTickLabels="true" showTickMarks="false" snapToTicks="true" style="-fx-font-size: 20" value="1">
+    </Slider>
+    <Label style="-fx-font: 20 arial;" text="Boot"/>
+    <Slider fx:id="boot" blockIncrement="1" cache="true" majorTickUnit="2" max="5" min="1" minorTickCount="0"
+            showTickLabels="true" showTickMarks="false" snapToTicks="true" style="-fx-font-size: 20" value="0">
+    </Slider>
+    <!--<Label text="Long Hoops" style="-fx-font: 20 arial;"/>-->
+    <HBox spacing="70">
+        <padding><Insets top="30"/></padding>
+        <CheckBox fx:id="checkBox" style="-fx-font-size: 15 arial" text="Long Hoops"/>
+        <Button text="Play" onAction="#playHandler"/>
+    </HBox>
 
 
 </VBox>

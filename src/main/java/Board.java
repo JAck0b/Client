@@ -1,17 +1,16 @@
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import logic.Bot;
-import logic.CheckMove;
+
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
 
 public class Board {
 
@@ -47,13 +46,10 @@ public class Board {
    */
   private MyCircle[][] corner;
 
-  private static int[][] fields;
-  private int [] number_of_skip_by_id = {0,0,0,0,0,0};
-  private boolean [] still_in_game = {true,true,true,true,true,true};
-  private int totalsteps =0;  //number of move in game
-  private ArrayList<int[][]> bases;
-  private ArrayList <Integer> winners = new ArrayList<>();
-  static int number_of_players;
+  /**
+   * Representation of board.
+   */
+  public static int[][] fields;
 
 
   @FXML
@@ -63,7 +59,7 @@ public class Board {
   @FXML
   TextField status;
   @FXML
-  Button ready;
+  Button skip;
   @FXML
   Button finish;
 
@@ -77,67 +73,9 @@ public class Board {
 //      System.out.println();
 //    }
   }
-  private void add_bases(){
-    bases = new ArrayList<>();
-    int [][] base2 = new int[][]{ //pionki z nr2 dążą do ... i symetrycznie 7 do x=y y=x
-      {4,0},{4,1},{5,1},{4,2},{5,2},{6,2},{7,3},{4,3},{6,3},{5,3}
-    };
-    bases.add(base2);
 
-    int [][] base3 = new int[][]{   //symetrai x=y y=x dla 6
-      {12,4},{11,4},{12,5},{11,5},{10,4},{12,6},{9,4},{12,7},{10,5},{11,6}
-    };
-    bases.add(base3);
 
-    int [][] base4 = new int[][]{   //symetrai x=y y=x dla 5
-      {16,12},{15,12},{15,11},{14,12},{14,11},{14,10},{13,12},{13,9},{13,11},{13,10}
-    };
-    bases.add(base4);
-  }
-  private boolean all_in_base(int id){
-    int checkX =0, checkY =0;
-    for(int i=0; i < 10 ; i++ ){
-      switch (id) {
-        case 2: {
-          checkX = bases.get(0)[i][0];
-          checkY = bases.get(0)[i][1];
-          break;
-        }
-        case 3: {
-          checkX = bases.get(1)[i][0];
-          checkY = bases.get(1)[i][1];
-          break;
-        }
-        case 4: {
-          checkX = bases.get(2)[i][0];
-          checkY = bases.get(2)[i][1];
-          break;
-        }
-        case 5: {
-          checkX = bases.get(2)[i][1];
-          checkY = bases.get(2)[i][0];
-          break;
-        }
-        case 6: {
-          checkX = bases.get(1)[i][1];
-          checkY = bases.get(1)[i][0];
-          break;
-        }
-        case 7: {
-          checkX = bases.get(0)[i][1];
-          checkY = bases.get(0)[i][0];
-          break;
-        }
-      }
-      if (fields[checkX][checkY] != id)
-        return false;
-
-    }
-    return true;
-
-  }
-
-  private void refresh() {
+  void refresh() {
     for (int i = 0; i < fields.length; i++) {
       int k = 0;
       while (fields[k][i] == 0) {
@@ -151,40 +89,53 @@ public class Board {
         k++;
       }
     }
+//    System.out.println("Hello");
   }
+
   //TODO Dopisanie odpowiadających wartośći w tabeli z serwera
   @FXML
   public void initialize() {
 
-    finish.setDisable(true);
+//    finish.setDisable(true);
     corner = new MyCircle[6][10];
     for (int i = 0; i < fields.length; i++) {
       myCircles[i] = new MyCircle[coordinates[i][1]];
 
       for (int j = 0; j < myCircles[i].length; j++) {
         myCircles[i][j] = new MyCircle();
-        myCircles[i][j].setOnMouseClicked(e->{
+        myCircles[i][j].setOnMouseClicked(e -> {
 
-          System.out.println("x = " + ((MyCircle)e.getSource()).getX());
-          System.out.println("y = " + ((MyCircle)e.getSource()).getY());
-          out.println(((MyCircle)e.getSource()).getX());
-          try {
-            in.readLine();
-          } catch (IOException e1) {
-            e1.printStackTrace();
-          }
+          System.out.println("x = " + ((MyCircle) e.getSource()).getX());
+          System.out.println("y = " + ((MyCircle) e.getSource()).getY());
+          out.println("COR " + ((MyCircle)e.getSource()).getX()+ " " + ((MyCircle)e.getSource()).getY());
+
         });
       }
     }
     refresh();
+//    refresh();
     //TODO Napisanie handlera dla MyCircle
-    colorCorner();
 
 
     draw();
+    colorCorner();
+    task();
 
   }
 
+  void task() {
+    BoardListener thread = new BoardListener(this, in);
+    thread.setDaemon(true);
+    thread.start();
+  }
+
+  void start() {
+    int i = 0;
+    while (i < 10) {
+      System.out.println("Spokojnie Kuba :)");
+//      i++;
+    }
+  }
 
 
   private void draw() {
@@ -199,6 +150,7 @@ public class Board {
         myCircles[i][j].setCenterX(x);
         myCircles[i][j].setCenterY(y);
         myCircles[i][j].setRadius(r);
+        myCircles[i][j].setStroke(Color.BLACK);
         pane.getChildren().add(myCircles[i][j]);
         x += 40;
       }
@@ -212,21 +164,23 @@ public class Board {
   }
 
   @FXML
-  public void readyHandler() {
-    String input;
-    try {
-      input = in.readLine();
-      status.setText(input);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+  public void skipHandler() {
+    start();
+//    String input;
+//    try {
+//      input = in.readLine();
+//      status.setText(input);
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
 
-    finish.setDisable(false);
-    ready.setDisable(true);
-    finish.requestFocus();
+//    finish.setDisable(false);
+//    ready.setDisable(true);
+//    finish.requestFocus();
 
   }
 
+  // This method sets stroke.
   private void colorCorner() {
     initCorner();
     for (int j = 0; j < 6; j++) {
@@ -235,107 +189,6 @@ public class Board {
       }
     }
   }
-  @FXML
-  public void lineCommand() {
-   // CheckMove checkMove = new CheckMove(true);
-    //checkMove.setFields(fields);
-    Bot bot = new Bot(fields,true);
-    add_bases();
-    bot.setBases(bases);
-    int steps = totalsteps %number_of_players;
-    int id = 0;
-    //rusza botami w kolejności zegara
-    switch (number_of_players){
-      case (6):{
-        id=steps +2;
-        break;
-      }
-      case (5):{
-        if(steps ==4)
-          id = 7;
-        else
-          id = steps +2;
-        break;
-      }
-      case (4):{
-        if(steps ==0)
-          id = 2;
-        else if(steps == 3)
-          id = 7;
-        else
-          id = steps +3;
-        }
-        break;
-      case (3): {
-        if(steps ==0)
-          id = 2;
-        else if(steps == 1)
-          id = 5;
-        else
-          id = 7;
-        break;
-      }
-      case (2): {
-        if(steps ==0)
-          id = 2;
-        else
-          id = 5;
-      }
-    }
-    System.out.println(id);
-    if(still_in_game[id-2]){
-      bot.setId(id);
-      bot.setSteps_in_game(totalsteps/number_of_players);
-      bot.calculate_best_move();
-      //czy ruch pomijany
-      if(!bot.isBot_skip_move()){
-        ArrayList<Integer> p; //path
-        p = bot.getPath_best_move();
-
-
-        //aktualizacja pola na które się ruszył pionkek ustalamy id pionka na tym polu
-        //ustawianie kolorów ścieżki
-        fields[p.get(0)][p.get(1)] = id;
-        for(int i=2; i< p.size();i=i+2)
-          fields[p.get(i)][p.get(i+1)] = (id)*10;
-
-
-        //refresh
-        for (int i = 0; i < 17; i++) {
-          int k = 0;
-          while (fields[k][i] == 0) {
-            k++;
-          }
-          for (int j = 0; j < myCircles[i].length; j++) {
-            myCircles[i][j].setColor(fields[k][i]);
-            k++;
-          }
-        }
-        //ścieżka wraca jako normalne pole
-        for(int i=2; i< p.size();i=i+2){
-          fields[p.get(i)][p.get(i+1)] = 1;
-        }
-        if(all_in_base(id)){
-          still_in_game[id-2] = false;
-          winners.add(id);
-        }
-      }
-      else {
-        number_of_skip_by_id [id-2] = number_of_skip_by_id [id-2] + 1;
-        // gdy 3 skipy dany plater nie gra
-        if(number_of_skip_by_id [id-2] >= 3) {
-          still_in_game[id-2] = false;
-        }
-      }
-    }
-    totalsteps++;
-    //todo testy
-
-    for(int i = 0; i < 6; i++)
-      System.out.print(number_of_skip_by_id[i] + " ");
-    System.out.println();
-  }
-
 
 
   private void initCorner() {

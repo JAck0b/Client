@@ -15,6 +15,6 @@
     <!--<Button fx:id="newGame" text="New Game" style="-fx-background-color: #FFE5B4"/>-->
     <Button fx:id="connect" text="Connect and Play" style="-fx-background-color: #FFE5B4" onAction="#playHandler"/>
     <Button fx:id="help" text="Help" style="-fx-background-color: #FFE5B4" onAction="#helpHandler"/>
-    <Button fx:id="settings" text="Settings" style="-fx-background-color: #FFE5B4"/>
+    <Button fx:id="settings" text="Settings" style="-fx-background-color: #FFE5B4" onAction="#settingHandler"/>
     <Button fx:id="exit" text="Exit" style="-fx-background-color: #FFE5B4" onAction="#exitHandler"/>
 </VBox>

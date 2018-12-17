@@ -28,7 +28,6 @@ public class MyCircle extends Circle {
 
   public void setColor(int color) {
     this.color = color;
-    this.setStroke(Color.BLACK);
     switch (color) {
       case 1:
         setFill(Color.LIGHTGRAY);
@@ -85,6 +84,7 @@ public class MyCircle extends Circle {
         break;
       case 5:
         setStroke(Color.CORNFLOWERBLUE);
+//        System.out.println("Zmienione");
         break;
       case 6:
         setStroke(Color.GRAY);

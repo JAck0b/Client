@@ -2,6 +2,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -19,45 +21,47 @@ public class NewGame {
   private BufferedReader in;
   private Socket socket;
   private String serverAddress;
-  private  int PORT;
+  private int PORT;
 
   @FXML
   VBox layout;
   @FXML
-  public void oneOneHandler() throws IOException{
-    out.println("NEW 1 1");
-    closeStage();
-    connectToGame();
-  }
+  Slider player;
   @FXML
-  public void oneThreeHandler() throws IOException {
-    out.println("NEW 1 3");
-    closeStage();
-    connectToGame();
-  }
+  Slider boot;
   @FXML
-  public void twoHandler() throws IOException {
-    out.println("NEW 2 0");
-    closeStage();
-    connectToGame();
-  }
+  CheckBox checkBox;
+
   @FXML
-  public void twoFourHandler() {
-    out.println("NEW 2 4");
-    closeStage();
+  public void initialize() {
+//    layout.setPadding(new Insets(10, 50, 50, 50));
+
+      player.valueProperty().addListener(
+        (observable, oldvalue, newvalue) ->
+        {
+          int i = newvalue.intValue();
+          boot.setMax(6-i);
+          boot.setMin(i%2);
+          boot.setValue(0);
+          boot.setMajorTickUnit(2);
+          System.out.println("Boot = " + (int)boot.getValue());
+          System.out.println("Player = " + (int)player.getValue());
+        } );
 
   }
-  @FXML
-  public void threeThreeHandler() {
-    out.println("NEW 3 3");
-    closeStage();
 
-  }
+
   @FXML
-  public void sixHandler() {
-    out.println("NEW 6 0");
-    closeStage();
+  public void playHandler() {
+    System.out.println("Hoopsy = " + ((checkBox.isSelected()) ? "Yes" : "NO"));
+    out.println("NEW " + (int)player.getValue() + " " + (int)boot.getValue() + " " + ((checkBox.isSelected()) ? 1 : 0));
+    try {
+      connectToGame();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
+
 
   private void createBoard() throws IOException {
     Stage primaryStage = (Stage) layout.getScene().getWindow();
@@ -70,7 +74,6 @@ public class NewGame {
     Board controller = fxmlLoader.<Board>getController();
     controller.setOut(out);
     controller.setIn(in);
-    out.println("Ready");
     Scene scene = new Scene(root, 560, 750);
     stage.setScene(scene);
     stage.setResizable(false);
@@ -83,6 +86,7 @@ public class NewGame {
   private void connectToGame() throws IOException {
     System.out.println(serverAddress);
     System.out.println(PORT);
+    socket.close();
     socket = new Socket(serverAddress, PORT);
     in = new BufferedReader(new InputStreamReader(
       socket.getInputStream()));
@@ -90,7 +94,7 @@ public class NewGame {
     String input = in.readLine();
     System.out.println(input);
     if (input.equals("NORMAL BOARD"))
-    createBoard();
+      createBoard();
   }
 
   private void closeStage() {

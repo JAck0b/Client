@@ -1,4 +1,5 @@
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,7 +46,9 @@ public class Menu {
     Board controller = fxmlLoader.<Board>getController();
     controller.setOut(out);
     controller.setIn(in);
-    out.println("Ready");
+    controller.start();
+    System.out.println("jestem");
+//    out.println("Ready");
     Scene scene = new Scene(root, 560, 750);
     stage.setScene(scene);
     stage.setResizable(false);
@@ -116,6 +120,35 @@ public class Menu {
     stage.setScene(scene);
     stage.setResizable(false);
     stage.setTitle("Board");
+//    stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new  EventHandler<WindowEvent>()
+//    {
+//      @Override
+//      public void handle(WindowEvent window)
+//      {
+//        controller.start();
+//      }
+//    });
+    stage.show();
+//    controller.start();
+  }
+
+  @FXML
+  public void settingHandler() throws IOException {
+    Stage primaryStage = (Stage) layout.getScene().getWindow();
+    Stage stage = new Stage();
+    stage.initOwner(primaryStage);
+    stage.initModality(Modality.WINDOW_MODAL);
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newGame.fxml"));
+    Parent root = fxmlLoader.load();
+    NewGame newGame = fxmlLoader.getController();
+    newGame.setOut(out);
+    newGame.setSocket(socket);
+    newGame.setServerAddress(serverAddress.getText());
+    newGame.setPORT(PORT);
+    Scene scene = new Scene(root, 300, 330);
+    stage.setScene(scene);
+    stage.setTitle("New Game");
+    stage.setResizable(false);
     stage.show();
   }
 }
