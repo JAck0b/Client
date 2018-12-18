@@ -1,4 +1,5 @@
 import javafx.application.Platform;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -30,19 +31,20 @@ public class BoardListener extends Thread {
   private Label status;
   private Label stepCounter;
   private Pane currentPlayer;
-  private boolean print = true;
-  private int[][] hint = new int[17][17];
+  private CheckBox hints;
+  private int[][] hintTable = new int[17][17];
 
   private boolean firstTime = true;
 
 
-  public BoardListener(Board board, BufferedReader in, Label status, Label stepCounter, Pane currentPlayer) {
-    this.fields = Board.fields;
+  public BoardListener(Board board, BufferedReader in, Label status, Label stepCounter, Pane currentPlayer, CheckBox hints) {
+    this.fields = board.getFields();
     this.board = board;
     this.in = in;
     this.status = status;
     this.stepCounter = stepCounter;
     this.currentPlayer = currentPlayer;
+    this.hints = hints;
   }
 
   @Override
@@ -51,7 +53,7 @@ public class BoardListener extends Thread {
 
     while (true) {
       try {
-//        while(input == null) {
+//        while(input == null)
         input = in.readLine();
 //          System.out.println("Przed");
         System.out.println("Komenda = " + input);
@@ -89,7 +91,7 @@ public class BoardListener extends Thread {
 
           for (int y = 0; y < 17; y++) {
             for (int x = 0; x < 17; x++) {
-              System.out.print(board.fields[x][y] + " ");
+              System.out.print(board.getFields()[x][y] + " ");
             }
             System.out.println();
           }
@@ -132,21 +134,30 @@ public class BoardListener extends Thread {
           input = in.readLine();
           Platform.runLater(() -> {
             board.refresh();
-          });
-          if (print) {
-            setFieldsfromString(hint, input);
             for (int i = 0; i < board.getMyCircles().length; i++) {
               for (int j = 0; j < board.getMyCircles()[i].length; j++) {
-                if (hint[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()] == 1) {
+                if (board.getMyCircles()[i][j].isActive()) {
+                  board.getMyCircles()[i][j].setStroke(Color.GOLD);
+                  board.getMyCircles()[i][j].setStrokeWidth(2);
+
+                }
+              }
+            }
+          });
+          if (hints.isSelected()) {
+            setFieldsfromString(hintTable, input);
+            for (int i = 0; i < board.getMyCircles().length; i++) {
+              for (int j = 0; j < board.getMyCircles()[i].length; j++) {
+                if (hintTable[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()] == 1) {
                   int finalI = i;
                   int finalJ = j;
                   Platform.runLater(() -> {
                     board.getMyCircles()[finalI][finalJ].setStrokeWidth(2);
                     board.getMyCircles()[finalI][finalJ].setStroke(Color.GOLD);
                   });
-                  System.out.println("Zmieniam stroke. = " + hint[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()]);
+                  System.out.println("Zmieniam stroke. = " + hintTable[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()]);
                 } else {
-                  board.getMyCircles()[i][j].setStrokeColor(1);
+//                  board.getMyCircles()[i][j].setStrokeColor(1);
                 }
 //                board.getMyCircles()[i][j].setHomes();
               }
@@ -158,6 +169,7 @@ public class BoardListener extends Thread {
         System.out.println("Server is disconnected.");
         System.exit(1);
       }
+//      yield();
     }
   }
 

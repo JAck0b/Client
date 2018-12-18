@@ -6,6 +6,7 @@ public class MyCircle extends Circle {
   private int y;
   private int fillColor;
   private int strokeColor;
+  private boolean active = false;
 
   public int getX() {
     return x;
@@ -118,5 +119,13 @@ public class MyCircle extends Circle {
 
   public void setStrokeColor(int strokeColor) {
     this.strokeColor = strokeColor;
+  }
+
+  public boolean isActive() {
+    return active;
+  }
+
+  public void setActive(boolean active) {
+    this.active = active;
   }
 }

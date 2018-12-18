@@ -1,5 +1,6 @@
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -46,7 +47,25 @@ public class Board {
   /**
    * Representation of board.
    */
-  public static int[][] fields;
+  private int[][] fields = new int[][]{
+    {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+    {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+    {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+    {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+    {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+    {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+    {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
+    {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+    {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}
+  };
 
 
   @FXML
@@ -61,12 +80,14 @@ public class Board {
   Label stepCounter;
   @FXML
   Pane currentPlayer;
+  @FXML
+  CheckBox hints;
 
 
   // Ta metoda przypisuje tablicę
-  static void writefields(int[][] table) {
-    fields = table;
-  }
+//  static void writefields(int[][] table) {
+//    fields = table;
+//  }
 
 
   void refresh() {
@@ -105,8 +126,14 @@ public class Board {
           System.out.println("pole = " + fields[x][y]);
           out.println("COR " + x + " " + y);
           System.out.println("COR " + x + " " + y);
-          ((MyCircle)e.getSource()).setStrokeWidth(5);
+          ((MyCircle)e.getSource()).setStrokeWidth(2);
           ((MyCircle)e.getSource()).setStroke(Color.GOLD);
+          for (int k = 0; k < myCircles.length; k++) {
+            for (int l = 0; l < myCircles[k].length; l++) {
+              myCircles[k][l].setActive(false);
+            }
+          }
+          ((MyCircle)e.getSource()).setActive(true);
         });
       }
     }
@@ -121,7 +148,7 @@ public class Board {
   }
 
   void task() {
-    BoardListener thread = new BoardListener(this, in, status, stepCounter, currentPlayer);
+    BoardListener thread = new BoardListener(this, in, status, stepCounter, currentPlayer, hints);
     thread.setDaemon(true);
     thread.start();
   }
@@ -245,5 +272,13 @@ public class Board {
 
   public MyCircle[][] getMyCircles() {
     return myCircles;
+  }
+
+  public void setFields(int[][] fields) {
+    this.fields = fields;
+  }
+
+  public int[][] getFields() {
+    return fields;
   }
 }

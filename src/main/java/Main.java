@@ -39,7 +39,7 @@ public class Main extends Application {
       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}
     };
-    Board.writefields(fields);
+//    Board.writefields(fields);
     launch(args);
   }
 }

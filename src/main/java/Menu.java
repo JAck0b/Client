@@ -46,6 +46,14 @@ public class Menu {
     Board controller = fxmlLoader.<Board>getController();
     controller.setOut(out);
     controller.setIn(in);
+    stage.addEventHandler(WindowEvent.WINDOW_SHOWING, new  EventHandler<WindowEvent>()
+    {
+      @Override
+      public void handle(WindowEvent window)
+      {
+        controller.task();
+      }
+    });
 //    controller.start();
 //    System.out.println("jestem");
 //    out.println("Ready");
