@@ -1,5 +1,3 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,39 +29,29 @@ public class Menu {
 
   private int PORT = 8888;
 
-  @FXML
-  public void initialize() {
-  }
+
   // TODO Zmienć modalność po testach
   private void createBoard() throws IOException {
     Stage primaryStage = (Stage) layout.getScene().getWindow();
     Stage stage = new Stage();
-    stage.initOwner(primaryStage);
-//    stage.initModality(Modality.WINDOW_MODAL);
     stage.initModality(Modality.NONE);
+    stage.initOwner(primaryStage);
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("board.fxml"));
     Parent root = fxmlLoader.load();
-    Board controller = fxmlLoader.<Board>getController();
-    controller.setOut(out);
+    Board controller = fxmlLoader.getController();
     controller.setIn(in);
+    controller.setOut(out);
     controller.setSocket(socket);
-    stage.addEventHandler(WindowEvent.WINDOW_SHOWING, new  EventHandler<WindowEvent>()
-    {
-      @Override
-      public void handle(WindowEvent window)
-      {
-        controller.task();
-      }
-    });
+    stage.addEventHandler(WindowEvent.WINDOW_SHOWING, window -> controller.task());
     // When window is closed.
     stage.setOnCloseRequest( windowEvent ->  {
       out.println("KILL");
-      System.out.println("KILL w menu");
+      System.out.println("KILL");
       stage.close();
     });
     Scene scene = new Scene(root, 560, 750);
-    stage.setScene(scene);
     stage.setResizable(false);
+    stage.setScene(scene);
     stage.setTitle("Board");
     stage.show();
   }
@@ -96,7 +84,7 @@ public class Menu {
   public void playHandler() {
     try {
       String addressOfServer = (serverAddress.getText().length() == 0) ? "localhost" : serverAddress.getText();
-      String input = null;
+      String input;
       socket = new Socket(addressOfServer, PORT);
       in = new BufferedReader(new InputStreamReader(
         socket.getInputStream()));
@@ -109,47 +97,24 @@ public class Menu {
         createBoard();
       }
     } catch (IOException e) {
-//      e.printStackTrace();
       System.out.println("Cannot connect.");
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("Cannot create new window.");
     }
-//    newGame.setDisable(false);
   }
 
   @FXML
-  public void exitHandler(ActionEvent e) {
+  public void helpHandler() {
+
+  }
+
+  @FXML
+  public void settingHandler() {
+  }
+
+  @FXML
+  public void exitHandler() {
     System.exit(0);
-  }
-
-  @FXML
-  public void helpHandler(ActionEvent e) throws IOException {
-    Stage primaryStage = (Stage) layout.getScene().getWindow();
-    Stage stage = new Stage();
-    stage.initOwner(primaryStage);
-    stage.initModality(Modality.WINDOW_MODAL);
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("board.fxml"));
-    Parent root = fxmlLoader.load();
-    Board controller = fxmlLoader.<Board>getController();
-    Scene scene = new Scene(root, 560, 750);
-    stage.setScene(scene);
-    stage.setResizable(false);
-    stage.setTitle("Board");
-//    stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new  EventHandler<WindowEvent>()
-//    {
-//      @Override
-//      public void handle(WindowEvent window)
-//      {
-//        controller.start();
-//      }
-//    });
-    stage.show();
-//    controller.start();
-  }
-
-  @FXML
-  public void settingHandler() throws Exception {
-    newGame();
   }
 }

@@ -1,4 +1,3 @@
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +17,6 @@ import java.net.Socket;
 
 
 public class NewGame {
-  // TODO Zmienić ewentualnie na ComboBox
   private PrintWriter out;
   private BufferedReader in;
   private Socket socket;
@@ -36,28 +34,20 @@ public class NewGame {
 
   @FXML
   public void initialize() {
-//    layout.setPadding(new Insets(10, 50, 50, 50));
-
-      player.valueProperty().addListener(
-        (observable, oldvalue, newvalue) ->
-        {
-          int i = newvalue.intValue();
-          boot.setMax(6-i);
-          boot.setMin(i%2);
-          boot.setValue(0);
-          boot.setMajorTickUnit(2);
-//          System.out.println("Boot = " + (int)boot.getValue());
-//          System.out.println("Player = " + (int)player.getValue());
-        } );
-
+    player.valueProperty().addListener(
+      (observable, oldvalue, newvalue) ->
+      {
+        int i = newvalue.intValue();
+        boot.setMax(6 - i);
+        boot.setMin(i % 2);
+        boot.setValue(0);
+        boot.setMajorTickUnit(2);
+      });
   }
-
 
   @FXML
   public void playHandler() {
-    System.out.println("Hoopsy = " + ((checkBox.isSelected()) ? "Yes" : "NO"));
-    out.println("NEW " + (int)player.getValue() + " " + (int)boot.getValue() + " " + ((checkBox.isSelected()) ? 1 : 0));
-    System.out.println("NEW " + (int)player.getValue() + " " + (int)boot.getValue() + " " + ((checkBox.isSelected()) ? 1 : 0));
+    out.println("NEW " + (int) player.getValue() + " " + (int) boot.getValue() + " " + ((checkBox.isSelected()) ? 1 : 0));
     try {
       connectToGame();
     } catch (IOException e) {
@@ -65,36 +55,24 @@ public class NewGame {
     }
   }
 
-
   private void createBoard() throws IOException {
     Stage primaryStage = (Stage) layout.getScene().getWindow();
     Stage stage = new Stage();
     stage.initOwner(primaryStage.getOwner());
-//    stage.initModality(Modality.WINDOW_MODAL);
     stage.initModality(Modality.NONE);
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("board.fxml"));
     Parent root = fxmlLoader.load();
-    Board controller = fxmlLoader.<Board>getController();
+    Board controller = fxmlLoader.getController();
     controller.setOut(out);
     controller.setIn(in);
     controller.setSocket(socket);
-    stage.addEventHandler(WindowEvent.WINDOW_SHOWING, new  EventHandler<WindowEvent>()
-    {
-      @Override
-      public void handle(WindowEvent window)
-      {
-        controller.task();
-      }
-    });
+    stage.addEventHandler(WindowEvent.WINDOW_SHOWING, window -> controller.task());
     // When window is closed.
-    stage.setOnCloseRequest( windowEvent ->  {
+    stage.setOnCloseRequest(windowEvent -> {
       out.println("KILL");
       System.out.println("KILL w normal board.");
       stage.close();
     });
-    if (in == null) {
-      System.out.println("New game null");
-    }
     Scene scene = new Scene(root, 560, 750);
     stage.setScene(scene);
     stage.setResizable(false);
@@ -118,29 +96,20 @@ public class NewGame {
       createBoard();
   }
 
-  private void closeStage() {
-    try {
-      socket.close();
-      System.out.println("Socket is closed.");
-    } catch (IOException e) {
-      e.printStackTrace();
-      System.out.println("Cannot close socket.");
-    }
-  }
 
-  public void setOut(PrintWriter out) {
+  void setOut(PrintWriter out) {
     this.out = out;
   }
 
-  public void setSocket(Socket socket) {
+  void setSocket(Socket socket) {
     this.socket = socket;
   }
 
-  public void setServerAddress(String serverAddress) {
+  void setServerAddress(String serverAddress) {
     this.serverAddress = serverAddress;
   }
 
-  public void setPORT(int PORT) {
+  void setPORT(int PORT) {
     this.PORT = PORT;
   }
 }

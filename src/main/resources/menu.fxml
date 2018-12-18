@@ -3,6 +3,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       alignment="CENTER"
@@ -10,8 +11,9 @@
       style="-fx-background-color: #964B00"
       fx:id="layout"
       fx:controller="Menu"
-      prefHeight="400.0" prefWidth="600.0">
-    <TextField fx:id="serverAddress" prefWidth="100"/>
+      prefHeight="250.0" prefWidth="200.0">
+    <Label text="Enter servers IPv4." style="-fx-font-size: 15 arial"/>
+    <TextField fx:id="serverAddress" prefWidth="100" promptText="Enter servers IPv4."/>
     <!--<Button fx:id="newGame" text="New Game" style="-fx-background-color: #FFE5B4"/>-->
     <Button fx:id="connect" text="Connect and Play" style="-fx-background-color: #FFE5B4" onAction="#playHandler"/>
     <Button fx:id="help" text="Help" style="-fx-background-color: #FFE5B4" onAction="#helpHandler"/>

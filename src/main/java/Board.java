@@ -96,16 +96,14 @@ public class Board {
 
 
   void refresh() {
-    for (int i = 0; i < fields.length; i++) {
+    for (int i = 0; i < myCircles.length; i++) {
       int k = 0;
       while (fields[k][i] == 0) {
         k++;
       }
       for (int j = 0; j < myCircles[i].length; j++) {
-
         myCircles[i][j].setFillColor(fields[k][i]);
         myCircles[i][j].setHomes();
-//        myCircles[i][j].setStrokeWidth(2);
         myCircles[i][j].setX(k);
         myCircles[i][j].setY(i);
         k++;
@@ -134,9 +132,9 @@ public class Board {
           System.out.println("COR " + x + " " + y);
           ((MyCircle)e.getSource()).setStrokeWidth(5);
           ((MyCircle)e.getSource()).setStroke(Color.GOLD);
-          for (int k = 0; k < myCircles.length; k++) {
-            for (int l = 0; l < myCircles[k].length; l++) {
-              myCircles[k][l].setActive(false);
+          for (MyCircle[] myCircle : myCircles) {
+            for (MyCircle myCircle1 : myCircle) {
+              myCircle1.setActive(false);
             }
           }
           ((MyCircle)e.getSource()).setActive(true);
@@ -145,11 +143,7 @@ public class Board {
     }
     refresh();
 
-    // TODO Napisanie handlera dla MyCircle
-
-
     draw();
-//    colorCorner();
 
   }
 
@@ -173,7 +167,6 @@ public class Board {
         myCircles[i][j].setCenterY(y);
         myCircles[i][j].setRadius(r);
         myCircles[i][j].setStroke(Color.BLACK);
-//        myCircles[i][j].setStrokeWidth(2);
         pane.getChildren().add(myCircles[i][j]);
         x += 40;
       }
@@ -189,7 +182,7 @@ public class Board {
   }
 
   // This method sets stroke.
-  public void colorCorner() {
+  void colorCorner() {
     initCorner();
     for (int j = 0; j < 6; j++) {
       for (int i = 0; i < 10; i++) {
@@ -268,31 +261,27 @@ public class Board {
     corner[2][9] = myCircles[4][3];
   }
 
-  public void setOut(PrintWriter out) {
+  void setOut(PrintWriter out) {
     this.out = out;
   }
 
-  public void setIn(BufferedReader in) {
+  void setIn(BufferedReader in) {
     this.in = in;
   }
 
-  public MyCircle[][] getMyCircles() {
+  MyCircle[][] getMyCircles() {
     return myCircles;
   }
 
-  public void setFields(int[][] fields) {
-    this.fields = fields;
-  }
-
-  public int[][] getFields() {
+  int[][] getFields() {
     return fields;
   }
 
-  public Socket getSocket() {
+  Socket getSocket() {
     return socket;
   }
 
-  public void setSocket(Socket socket) {
+  void setSocket(Socket socket) {
     this.socket = socket;
   }
 }

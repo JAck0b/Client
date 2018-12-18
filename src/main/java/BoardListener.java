@@ -51,27 +51,20 @@ public class BoardListener extends Thread {
 
   @Override
   public void run() {
-    String input = null;
+    String input;
 
     while (true) {
       try {
-//        while(input == null)
         input = in.readLine();
-//          System.out.println("Przed");
         System.out.println("Komenda = " + input);
-//          System.out.println("PO1");
-//        }
         if (input.startsWith("BOARD")) {
           System.out.println(input);
           input = in.readLine();
-//          System.out.println("PO2");
           String finalInput = input;
           Platform.runLater(() -> {
             setFieldsfromString(fields, finalInput);
             board.refresh();
-            board.colorCorner();
           });
-//          System.out.println(input);
           setFieldsfromString(fields, input);
 
           if (firstTime) {
@@ -81,7 +74,7 @@ public class BoardListener extends Thread {
               for (int j = 0; j < board.getMyCircles()[i].length; j++) {
                 if (fields[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()] > 1) {
                   board.getMyCircles()[i][j].setStrokeColor(fields[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()]);
-                  System.out.println("Zmieniam stroke. = " + fields[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()]);
+//                  System.out.println("Change stroke. = " + fields[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()]);
                 } else {
                   board.getMyCircles()[i][j].setStrokeColor(1);
                 }
@@ -105,26 +98,27 @@ public class BoardListener extends Thread {
           String finalInput = "Player " + finalPlayer;
           Platform.runLater(() -> {
             status.setText(finalInput);
-            switch (nextPlayer) {
-              case 2:
-                currentPlayer.setStyle("-fx-background-color: #00008B;");
-                break;
-              case 3:
-                currentPlayer.setStyle("-fx-background-color: #FF0000;");
-                break;
-              case 4:
-                currentPlayer.setStyle("-fx-background-color: #006400;");
-                break;
-              case 5:
-                currentPlayer.setStyle("-fx-background-color: #008B8B;");
-                break;
-              case 6:
-                currentPlayer.setStyle("-fx-background-color: #4B0082;");
-                break;
-              case 7:
-                currentPlayer.setStyle("-fx-background-color: #8B4513;");
-                break;
-            }
+            setAppropriateColor(nextPlayer, currentPlayer);
+//            switch (nextPlayer) {
+//              case 2:
+//                currentPlayer.setStyle("-fx-background-color: #00008B;");
+//                break;
+//              case 3:
+//                currentPlayer.setStyle("-fx-background-color: #FF0000;");
+//                break;
+//              case 4:
+//                currentPlayer.setStyle("-fx-background-color: #006400;");
+//                break;
+//              case 5:
+//                currentPlayer.setStyle("-fx-background-color: #008B8B;");
+//                break;
+//              case 6:
+//                currentPlayer.setStyle("-fx-background-color: #4B0082;");
+//                break;
+//              case 7:
+//                currentPlayer.setStyle("-fx-background-color: #8B4513;");
+//                break;
+//            }
           });
         } else if (input.startsWith("STEPS")) {
           System.out.println(input);
@@ -170,36 +164,35 @@ public class BoardListener extends Thread {
         } else if (input.startsWith("YOURID")) {
           int finalId = Integer.parseInt(input.substring(7, 8));
           Platform.runLater(() -> {
-            switch (finalId) {
-              case 2:
-                playersColor.setStyle("-fx-background-color: #00008B;");
-                break;
-              case 3:
-                playersColor.setStyle("-fx-background-color: #FF0000;");
-                break;
-              case 4:
-                playersColor.setStyle("-fx-background-color: #006400;");
-                break;
-              case 5:
-                playersColor.setStyle("-fx-background-color: #008B8B;");
-                break;
-              case 6:
-                playersColor.setStyle("-fx-background-color: #4B0082;");
-                break;
-              case 7:
-                playersColor.setStyle("-fx-background-color: #8B4513;");
-                break;
-            }
+            setAppropriateColor(finalId, playersColor);
+//            switch (finalId) {
+//              case 2:
+//                playersColor.setStyle("-fx-background-color: #00008B;");
+//                break;
+//              case 3:
+//                playersColor.setStyle("-fx-background-color: #FF0000;");
+//                break;
+//              case 4:
+//                playersColor.setStyle("-fx-background-color: #006400;");
+//                break;
+//              case 5:
+//                playersColor.setStyle("-fx-background-color: #008B8B;");
+//                break;
+//              case 6:
+//                playersColor.setStyle("-fx-background-color: #4B0082;");
+//                break;
+//              case 7:
+//                playersColor.setStyle("-fx-background-color: #8B4513;");
+//                break;
+//            }
           });
-        }
-        if (input.startsWith("KILL")) {
+        } else if (input.startsWith("KILL")) {
           break;
         }
       } catch (IOException e) {
         System.out.println("Server is disconnected.");
         System.exit(1);
       }
-//      yield();
     }
     System.out.println("Window is closed.");
     Platform.runLater(() -> {
@@ -213,7 +206,30 @@ public class BoardListener extends Thread {
     });
   }
 
-  public void setFieldsfromString(int[][] fields, String receive) {
+  private void setAppropriateColor (int finalInt, Pane pane) {
+    switch (finalInt) {
+      case 2:
+        pane.setStyle("-fx-background-color: #00008B;");
+        break;
+      case 3:
+        pane.setStyle("-fx-background-color: #FF0000;");
+        break;
+      case 4:
+        pane.setStyle("-fx-background-color: #006400;");
+        break;
+      case 5:
+        pane.setStyle("-fx-background-color: #008B8B;");
+        break;
+      case 6:
+        pane.setStyle("-fx-background-color: #4B0082;");
+        break;
+      case 7:
+        pane.setStyle("-fx-background-color: #8B4513;");
+        break;
+    }
+  }
+
+  private void setFieldsfromString(int[][] fields, String receive) {
     int index = 0, distance;
     for (int i = 0; i < fields.length; i++) {
       for (int j = 0; j < fields.length; j++) {
@@ -228,8 +244,3 @@ public class BoardListener extends Thread {
   }
 
 }
-
-//Platform.runLater(() -> {
-//  fields[j][12] = 5;
-//  board.refresh();
-//  });

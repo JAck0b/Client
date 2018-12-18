@@ -1,35 +1,29 @@
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class MyCircle extends Circle {
+class MyCircle extends Circle {
   private int x;
   private int y;
-  private int fillColor;
   private int strokeColor;
   private boolean active = false;
 
-  public int getX() {
+  int getX() {
     return x;
   }
 
-  public void setX(int x) {
+  void setX(int x) {
     this.x = x;
   }
 
-  public int getY() {
+  int getY() {
     return y;
   }
 
-  public void setY(int y) {
+  void setY(int y) {
     this.y = y;
   }
 
-  public int getFillColor() {
-    return fillColor;
-  }
-
-  public void setFillColor(int fillColor) {
-    this.fillColor = fillColor;
+  void setFillColor(int fillColor) {
     switch (fillColor) {
       case 1:
         setFill(Color.LIGHTGRAY);
@@ -91,7 +85,7 @@ public class MyCircle extends Circle {
     }
   }
 
-  public void setHomes() {
+  void setHomes() {
     switch (strokeColor) {
       case 1:
         setStrokeWidth(1);
@@ -124,15 +118,15 @@ public class MyCircle extends Circle {
     }
   }
 
-  public void setStrokeColor(int strokeColor) {
+  void setStrokeColor(int strokeColor) {
     this.strokeColor = strokeColor;
   }
 
-  public boolean isActive() {
+  boolean isActive() {
     return active;
   }
 
-  public void setActive(boolean active) {
+  void setActive(boolean active) {
     this.active = active;
   }
 }
