@@ -85,6 +85,8 @@ public class Board {
   Pane currentPlayer;
   @FXML
   CheckBox hints;
+  @FXML
+  Pane playersColor;
 
 
   // Ta metoda przypisuje tablicę
@@ -103,7 +105,7 @@ public class Board {
 
         myCircles[i][j].setFillColor(fields[k][i]);
         myCircles[i][j].setHomes();
-        myCircles[i][j].setStrokeWidth(1);
+//        myCircles[i][j].setStrokeWidth(2);
         myCircles[i][j].setX(k);
         myCircles[i][j].setY(i);
         k++;
@@ -130,7 +132,7 @@ public class Board {
           System.out.println("pole = " + fields[x][y]);
           out.println("COR " + x + " " + y);
           System.out.println("COR " + x + " " + y);
-          ((MyCircle)e.getSource()).setStrokeWidth(2);
+          ((MyCircle)e.getSource()).setStrokeWidth(5);
           ((MyCircle)e.getSource()).setStroke(Color.GOLD);
           for (int k = 0; k < myCircles.length; k++) {
             for (int l = 0; l < myCircles[k].length; l++) {
@@ -152,7 +154,7 @@ public class Board {
   }
 
   void task() {
-    BoardListener thread = new BoardListener(this, in, status, stepCounter, currentPlayer, hints);
+    BoardListener thread = new BoardListener(this, in, status, stepCounter, currentPlayer, hints, playersColor);
     thread.setDaemon(true);
     thread.start();
   }
@@ -171,7 +173,7 @@ public class Board {
         myCircles[i][j].setCenterY(y);
         myCircles[i][j].setRadius(r);
         myCircles[i][j].setStroke(Color.BLACK);
-        myCircles[i][j].setStrokeWidth(1);
+//        myCircles[i][j].setStrokeWidth(2);
         pane.getChildren().add(myCircles[i][j]);
         x += 40;
       }

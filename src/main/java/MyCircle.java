@@ -94,24 +94,31 @@ public class MyCircle extends Circle {
   public void setHomes() {
     switch (strokeColor) {
       case 1:
+        setStrokeWidth(1);
         setStroke(Color.BLACK);
         break;
       case 2:
+        setStrokeWidth(3);
         setStroke(Color.DARKBLUE);
         break;
       case 3:
+        setStrokeWidth(3);
         setStroke(Color.RED);
         break;
       case 4:
+        setStrokeWidth(3);
         setStroke(Color.DARKGREEN);
         break;
       case 5:
+        setStrokeWidth(3);
         setStroke(Color.DARKCYAN);
         break;
       case 6:
+        setStrokeWidth(3);
         setStroke(Color.INDIGO);
         break;
       case 7:
+        setStrokeWidth(3);
         setStroke(Color.SADDLEBROWN);
         break;
     }

@@ -1,7 +1,6 @@
 import javafx.application.Platform;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -33,12 +32,13 @@ public class BoardListener extends Thread {
   private Label stepCounter;
   private Pane currentPlayer;
   private CheckBox hints;
+  private Pane playersColor;
   private int[][] hintTable = new int[17][17];
 
   private boolean firstTime = true;
 
 
-  public BoardListener(Board board, BufferedReader in, Label status, Label stepCounter, Pane currentPlayer, CheckBox hints) {
+  public BoardListener(Board board, BufferedReader in, Label status, Label stepCounter, Pane currentPlayer, CheckBox hints, Pane playersColor) {
     this.fields = board.getFields();
     this.board = board;
     this.in = in;
@@ -46,6 +46,7 @@ public class BoardListener extends Thread {
     this.stepCounter = stepCounter;
     this.currentPlayer = currentPlayer;
     this.hints = hints;
+    this.playersColor = playersColor;
   }
 
   @Override
@@ -99,11 +100,12 @@ public class BoardListener extends Thread {
 
         } else if (input.startsWith("PLAYER")) {
           System.out.println(input);
-          int finalPlayer = Integer.parseInt(input.substring(7, 8)) - 1;
+          int finalPlayer = Integer.parseInt(input.substring(7, 8)) + 1;
+          int nextPlayer = Integer.parseInt(input.substring(9, 10));
           String finalInput = "Player " + finalPlayer;
           Platform.runLater(() -> {
             status.setText(finalInput);
-            switch (finalPlayer + 1) {
+            switch (nextPlayer) {
               case 2:
                 currentPlayer.setStyle("-fx-background-color: #00008B;");
                 break;
@@ -126,9 +128,9 @@ public class BoardListener extends Thread {
           });
         } else if (input.startsWith("STEPS")) {
           System.out.println(input);
-          String finalInput1 = input;
+          String[] finalInput1 = input.split(" ");
           Platform.runLater(() -> {
-            stepCounter.setText("Step = " + finalInput1.substring(6, 7));
+            stepCounter.setText("Step = " + finalInput1[1]);
           });
 
         } else if (input.startsWith("POS")) {
@@ -139,7 +141,7 @@ public class BoardListener extends Thread {
               for (int j = 0; j < board.getMyCircles()[i].length; j++) {
                 if (board.getMyCircles()[i][j].isActive()) {
                   board.getMyCircles()[i][j].setStroke(Color.GOLD);
-                  board.getMyCircles()[i][j].setStrokeWidth(2);
+                  board.getMyCircles()[i][j].setStrokeWidth(5);
 
                 }
               }
@@ -153,7 +155,7 @@ public class BoardListener extends Thread {
                   int finalI = i;
                   int finalJ = j;
                   Platform.runLater(() -> {
-                    board.getMyCircles()[finalI][finalJ].setStrokeWidth(2);
+                    board.getMyCircles()[finalI][finalJ].setStrokeWidth(5);
                     board.getMyCircles()[finalI][finalJ].setStroke(Color.GOLD);
                   });
                   System.out.println("Zmieniam stroke. = " + hintTable[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()]);
@@ -165,7 +167,32 @@ public class BoardListener extends Thread {
             }
           }
           System.out.println(input);
-        } if (input.startsWith("KILL")) {
+        } else if (input.startsWith("YOURID")) {
+          int finalId = Integer.parseInt(input.substring(7, 8));
+          Platform.runLater(() -> {
+            switch (finalId) {
+              case 2:
+                playersColor.setStyle("-fx-background-color: #00008B;");
+                break;
+              case 3:
+                playersColor.setStyle("-fx-background-color: #FF0000;");
+                break;
+              case 4:
+                playersColor.setStyle("-fx-background-color: #006400;");
+                break;
+              case 5:
+                playersColor.setStyle("-fx-background-color: #008B8B;");
+                break;
+              case 6:
+                playersColor.setStyle("-fx-background-color: #4B0082;");
+                break;
+              case 7:
+                playersColor.setStyle("-fx-background-color: #8B4513;");
+                break;
+            }
+          });
+        }
+        if (input.startsWith("KILL")) {
           break;
         }
       } catch (IOException e) {
@@ -175,14 +202,14 @@ public class BoardListener extends Thread {
 //      yield();
     }
     System.out.println("Window is closed.");
-    Platform.runLater(() ->{
+    Platform.runLater(() -> {
       try {
         board.getSocket().close();
       } catch (IOException e) {
         e.printStackTrace();
         System.out.println("Cannot close window.");
       }
-      ((Stage)(board.layout.getScene().getWindow())).close();
+      ((Stage) (board.layout.getScene().getWindow())).close();
     });
   }
 

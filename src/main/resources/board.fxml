@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.control.CheckBox?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Board"
-      style="-fx-background-color: #B87333"
-      fx:id="layout"
-      prefHeight="600.0" prefWidth="600.0">
-    <HBox style="-fx-background-color: gray">
-        <Label fx:id="status" text="Status" prefWidth="200" style="-fx-font-size: 15 arial; -fx-background-color: lightgray" prefHeight="30" alignment="CENTER"/>
+
+<VBox fx:id="layout" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #B87333" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Board">
+    <HBox style="-fx-background-color: gray" alignment="CENTER">
+        <Label text="You:" prefHeight="31" prefWidth="60" style="-fx-font-size: 15 arial; -fx-background-color: lightgray; -fx-border-color: black" alignment="CENTER" />
+        <Pane fx:id="playersColor" prefHeight="31" prefWidth="50" style="-fx-background-color: black"/>
+        <Label fx:id="status" alignment="CENTER" prefHeight="31" prefWidth="100" style="-fx-font-size: 15 arial; -fx-background-color: lightgray;  -fx-border-color: black" text="Status" />
         <!--<Pane prefWidth="20" prefHeight="20" style="-fx-background-color: #000000"/>-->
-        <Pane fx:id="currentPlayer" prefHeight="20" prefWidth="50" style="-fx-background-color: black"/>
-        <Label fx:id="stepCounter" text="Steps = 0" prefWidth="100" prefHeight="30" alignment="CENTER" style="-fx-font-size: 15 arial; -fx-background-color: lightgray"/>
-        <Button fx:id="skip" text="Skip" minWidth="100" onAction="#skipHandler" style="-fx-font-size:15 arial" />
-        <CheckBox fx:id="hints" text="Hints" style="-fx-font-size: 15 arial"/>
+        <Pane fx:id="currentPlayer" prefHeight="31" prefWidth="50" style="-fx-background-color: black" />
+        <Label fx:id="stepCounter" alignment="CENTER" prefHeight="31" prefWidth="100" style="-fx-font-size: 15 arial; -fx-background-color: lightgray;  -fx-border-color: black" text="Steps = 0" />
+        <Button fx:id="skip" onAction="#skipHandler" prefHeight="30" prefWidth="100" style="-fx-font-size:15 arial;  -fx-border-color: black" text="Skip" />
+        <Label alignment="CENTER" prefHeight="31" prefWidth="100" style="-fx-font-size: 15 arial; -fx-background-color: lightgray;  -fx-border-color: black" text="Hints" />
+        <CheckBox fx:id="hints" style="-fx-font-size: 21 arial;" />
     </HBox>
-    <Pane fx:id="pane" prefWidth="560" prefHeight="720" style="-fx-background-color: #B87333"  />
+    <Pane fx:id="pane" prefHeight="573.0" prefWidth="600.0" style="-fx-background-color: #B87333" />
 
 </VBox>
