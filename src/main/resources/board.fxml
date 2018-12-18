@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.shape.Circle?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="Board"
@@ -13,10 +13,12 @@
       fx:id="layout"
       prefHeight="600.0" prefWidth="600.0">
     <HBox>
-        <TextField fx:id="status" editable="false" prefWidth="300" />
-        <Button fx:id="skip" text="Skip" minWidth="100" onAction="#skipHandler"/>
+        <Label fx:id="status" text="Status" prefWidth="300" style="-fx-font-size: 15 arial; -fx-background-color: lightgray" prefHeight="30" alignment="CENTER"/>
+        <!--<Pane prefWidth="20" prefHeight="20" style="-fx-background-color: #000000"/>-->
+        <Pane fx:id="currentPlayer" prefHeight="20" prefWidth="50" style="-fx-background-color: black"/>
+        <Button fx:id="skip" text="Skip" minWidth="100" onAction="#skipHandler" style="-fx-font-size:15 arial" />
+        <Label fx:id="stepCounter" text="Steps = 0" prefWidth="200" prefHeight="30" alignment="CENTER" style="-fx-font-size: 15 arial; -fx-background-color: lightgray"/>
     </HBox>
     <Pane fx:id="pane" prefWidth="560" prefHeight="720" style="-fx-background-color: #B87333"  />
-
 
 </VBox>

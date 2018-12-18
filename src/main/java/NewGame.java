@@ -57,6 +57,7 @@ public class NewGame {
   public void playHandler() {
     System.out.println("Hoopsy = " + ((checkBox.isSelected()) ? "Yes" : "NO"));
     out.println("NEW " + (int)player.getValue() + " " + (int)boot.getValue() + " " + ((checkBox.isSelected()) ? 1 : 0));
+    System.out.println("NEW " + (int)player.getValue() + " " + (int)boot.getValue() + " " + ((checkBox.isSelected()) ? 1 : 0));
     try {
       connectToGame();
     } catch (IOException e) {

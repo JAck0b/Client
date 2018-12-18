@@ -1,15 +1,12 @@
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-
 import java.io.BufferedReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 
 public class Board {
@@ -57,9 +54,13 @@ public class Board {
   @FXML
   VBox layout;
   @FXML
-  TextField status;
+  Label status;
   @FXML
   Button skip;
+  @FXML
+  Label stepCounter;
+  @FXML
+  Pane currentPlayer;
 
 
   // Ta metoda przypisuje tablicę
@@ -76,7 +77,9 @@ public class Board {
       }
       for (int j = 0; j < myCircles[i].length; j++) {
 
-        myCircles[i][j].setColor(fields[k][i]);
+        myCircles[i][j].setFillColor(fields[k][i]);
+        myCircles[i][j].setHomes();
+        myCircles[i][j].setStrokeWidth(1);
         myCircles[i][j].setX(k);
         myCircles[i][j].setY(i);
         k++;
@@ -102,7 +105,8 @@ public class Board {
           System.out.println("pole = " + fields[x][y]);
           out.println("COR " + x + " " + y);
           System.out.println("COR " + x + " " + y);
-
+          ((MyCircle)e.getSource()).setStrokeWidth(5);
+          ((MyCircle)e.getSource()).setStroke(Color.GOLD);
         });
       }
     }
@@ -112,12 +116,12 @@ public class Board {
 
 
     draw();
-    colorCorner();
+//    colorCorner();
 
   }
 
   void task() {
-    BoardListener thread = new BoardListener(this, in, status);
+    BoardListener thread = new BoardListener(this, in, status, stepCounter, currentPlayer);
     thread.setDaemon(true);
     thread.start();
   }
@@ -136,6 +140,7 @@ public class Board {
         myCircles[i][j].setCenterY(y);
         myCircles[i][j].setRadius(r);
         myCircles[i][j].setStroke(Color.BLACK);
+        myCircles[i][j].setStrokeWidth(1);
         pane.getChildren().add(myCircles[i][j]);
         x += 40;
       }
@@ -147,12 +152,11 @@ public class Board {
 
   @FXML
   public void skipHandler() {
-
-
+    out.println("SKIP");
   }
 
   // This method sets stroke.
-  private void colorCorner() {
+  public void colorCorner() {
     initCorner();
     for (int j = 0; j < 6; j++) {
       for (int i = 0; i < 10; i++) {
@@ -237,5 +241,9 @@ public class Board {
 
   public void setIn(BufferedReader in) {
     this.in = in;
+  }
+
+  public MyCircle[][] getMyCircles() {
+    return myCircles;
   }
 }

@@ -4,7 +4,8 @@ import javafx.scene.shape.Circle;
 public class MyCircle extends Circle {
   private int x;
   private int y;
-  private int color;
+  private int fillColor;
+  private int strokeColor;
 
   public int getX() {
     return x;
@@ -22,13 +23,13 @@ public class MyCircle extends Circle {
     this.y = y;
   }
 
-  public int getColor() {
-    return color;
+  public int getFillColor() {
+    return fillColor;
   }
 
-  public void setColor(int color) {
-    this.color = color;
-    switch (color) {
+  public void setFillColor(int fillColor) {
+    this.fillColor = fillColor;
+    switch (fillColor) {
       case 1:
         setFill(Color.LIGHTGRAY);
         break;
@@ -36,7 +37,7 @@ public class MyCircle extends Circle {
         setFill(Color.DARKBLUE);
         break;
       case 3:
-        setFill(Color.DARKRED);
+        setFill(Color.RED);
         break;
       case 4:
         setFill(Color.DARKGREEN);
@@ -90,7 +91,10 @@ public class MyCircle extends Circle {
   }
 
   public void setHomes() {
-    switch (color) {
+    switch (strokeColor) {
+      case 1:
+        setStroke(Color.BLACK);
+        break;
       case 2:
         setStroke(Color.DARKBLUE);
         break;
@@ -98,19 +102,21 @@ public class MyCircle extends Circle {
         setStroke(Color.RED);
         break;
       case 4:
-        setStroke(Color.GREEN);
+        setStroke(Color.DARKGREEN);
         break;
       case 5:
-        setStroke(Color.CORNFLOWERBLUE);
-//        System.out.println("Zmienione");
+        setStroke(Color.DARKCYAN);
         break;
       case 6:
-        setStroke(Color.GRAY);
+        setStroke(Color.INDIGO);
         break;
       case 7:
-        setStroke(Color.YELLOW);
+        setStroke(Color.SADDLEBROWN);
         break;
     }
   }
 
+  public void setStrokeColor(int strokeColor) {
+    this.strokeColor = strokeColor;
+  }
 }
