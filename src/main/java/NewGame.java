@@ -77,6 +77,7 @@ public class NewGame {
     Board controller = fxmlLoader.<Board>getController();
     controller.setOut(out);
     controller.setIn(in);
+    controller.setSocket(socket);
     stage.addEventHandler(WindowEvent.WINDOW_SHOWING, new  EventHandler<WindowEvent>()
     {
       @Override
@@ -84,6 +85,12 @@ public class NewGame {
       {
         controller.task();
       }
+    });
+    // When window is closed.
+    stage.setOnCloseRequest( windowEvent ->  {
+      out.println("KILL");
+      System.out.println("KILL w normal board.");
+      stage.close();
     });
     if (in == null) {
       System.out.println("New game null");

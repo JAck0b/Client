@@ -12,7 +12,7 @@
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="NewGame" style="-fx-background-color: #B87333">
     <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
     <Label style="-fx-font: 20 arial;" text="Player"/>
-    <Slider fx:id="player" blockIncrement="1" cache="true" majorTickUnit="1" max="6" min="0" minorTickCount="0"
+    <Slider fx:id="player" blockIncrement="1" cache="true" majorTickUnit="1" max="6" min="1" minorTickCount="0"
             showTickLabels="true" showTickMarks="false" snapToTicks="true" style="-fx-font-size: 20" value="1">
     </Slider>
     <Label style="-fx-font: 20 arial;" text="Boot"/>

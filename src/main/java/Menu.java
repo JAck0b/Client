@@ -46,6 +46,7 @@ public class Menu {
     Board controller = fxmlLoader.<Board>getController();
     controller.setOut(out);
     controller.setIn(in);
+    controller.setSocket(socket);
     stage.addEventHandler(WindowEvent.WINDOW_SHOWING, new  EventHandler<WindowEvent>()
     {
       @Override
@@ -54,9 +55,12 @@ public class Menu {
         controller.task();
       }
     });
-//    controller.start();
-//    System.out.println("jestem");
-//    out.println("Ready");
+    // When window is closed.
+    stage.setOnCloseRequest( windowEvent ->  {
+      out.println("KILL");
+      System.out.println("KILL w menu");
+      stage.close();
+    });
     Scene scene = new Scene(root, 560, 750);
     stage.setScene(scene);
     stage.setResizable(false);
@@ -77,6 +81,10 @@ public class Menu {
     newGame.setSocket(socket);
     newGame.setServerAddress(serverAddress.getText());
     newGame.setPORT(PORT);
+    stage.setOnCloseRequest( windowEvent ->  {
+      out.println("KILL");
+      System.out.println("KILL");
+    });
     Scene scene = new Scene(root, 300, 330);
     stage.setScene(scene);
     stage.setTitle("New Game");

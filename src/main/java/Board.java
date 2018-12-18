@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.net.Socket;
 
 
 public class Board {
@@ -67,6 +68,8 @@ public class Board {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}
   };
 
+  private Socket socket;
+
 
   @FXML
   Pane pane;
@@ -119,6 +122,7 @@ public class Board {
       for (int j = 0; j < myCircles[i].length; j++) {
         myCircles[i][j] = new MyCircle();
         myCircles[i][j].setOnMouseClicked(e -> {
+          refresh();
           int x = ((MyCircle) e.getSource()).getX();
           int y = ((MyCircle) e.getSource()).getY();
           System.out.println("x = " + x);
@@ -280,5 +284,13 @@ public class Board {
 
   public int[][] getFields() {
     return fields;
+  }
+
+  public Socket getSocket() {
+    return socket;
+  }
+
+  public void setSocket(Socket socket) {
+    this.socket = socket;
   }
 }

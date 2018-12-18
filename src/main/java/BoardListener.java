@@ -4,6 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -164,6 +165,8 @@ public class BoardListener extends Thread {
             }
           }
           System.out.println(input);
+        } if (input.startsWith("KILL")) {
+          break;
         }
       } catch (IOException e) {
         System.out.println("Server is disconnected.");
@@ -171,6 +174,16 @@ public class BoardListener extends Thread {
       }
 //      yield();
     }
+    System.out.println("Window is closed.");
+    Platform.runLater(() ->{
+      try {
+        board.getSocket().close();
+      } catch (IOException e) {
+        e.printStackTrace();
+        System.out.println("Cannot close window.");
+      }
+      ((Stage)(board.layout.getScene().getWindow())).close();
+    });
   }
 
   public void setFieldsfromString(int[][] fields, String receive) {
