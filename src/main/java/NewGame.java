@@ -17,10 +17,26 @@ import java.net.Socket;
 
 
 public class NewGame {
+
+  /**
+   * Output into server.
+   */
   private PrintWriter out;
+  /**
+   * Input from server.
+   */
   private BufferedReader in;
+  /**
+   * Server's socket.
+   */
   private Socket socket;
+  /**
+   * Server's ip address.
+   */
   private String serverAddress;
+  /**
+   * Server's port.
+   */
   private int PORT;
 
   @FXML
@@ -58,6 +74,11 @@ public class NewGame {
     }
   }
 
+  /**
+   * This method creates new Board.
+   * @throws IOException writing board.fxml
+   */
+  @SuppressWarnings("Duplicates")
   private void createBoard() throws IOException {
     Stage primaryStage = (Stage) layout.getScene().getWindow();
     Stage stage = new Stage();
@@ -73,7 +94,6 @@ public class NewGame {
     // When window is closed.
     stage.setOnCloseRequest(windowEvent -> {
       out.println("KILL");
-      System.out.println("KILL w normal board.");
       stage.close();
     });
     Scene scene = new Scene(root, 560, 750);
@@ -85,16 +105,17 @@ public class NewGame {
     secondStage.close();
   }
 
+  /**
+   * This method runs after initialization of game and automatically connect with server to game.
+   * @throws IOException Close socket exception
+   */
   private void connectToGame() throws IOException {
-    System.out.println(serverAddress);
-    System.out.println(PORT);
     socket.close();
     socket = new Socket(serverAddress, PORT);
     in = new BufferedReader(new InputStreamReader(
       socket.getInputStream()));
     out = new PrintWriter(socket.getOutputStream(), true);
     String input = in.readLine();
-    System.out.println(input);
     if (input.equals("NORMAL BOARD"))
       createBoard();
   }

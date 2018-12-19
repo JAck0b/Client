@@ -50,7 +50,7 @@ public class MyCircleTest {
   public void setFillColor() {
     setUpClass();
     myCircle.setFillColor(3);
-    assertEquals(Color.RED, myCircle.getFill());
+    assertEquals(Color.CRIMSON, myCircle.getFill());
   }
 
   @Test

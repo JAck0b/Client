@@ -18,9 +18,17 @@ import java.net.Socket;
 
 
 public class Menu {
-
+  /**
+   * Input from server.
+   */
   private BufferedReader in;
+  /**
+   * Output from server.
+   */
   private PrintWriter out;
+  /**
+   * Server's socket.
+   */
   private Socket socket;
 
   @FXML
@@ -31,9 +39,12 @@ public class Menu {
 
   private int PORT = 8888;
 
-
-  // TODO Zmienć modalność po testach
-  public void createBoard() throws IOException {
+  /**
+   * This method creates new Board.
+   * @throws IOException writing board.fxml
+   */
+  @SuppressWarnings("Duplicates")
+  private void createBoard() throws IOException {
     Stage primaryStage = (Stage) layout.getScene().getWindow();
     Stage stage = new Stage();
     stage.initModality(Modality.NONE);
@@ -48,7 +59,6 @@ public class Menu {
     // When window is closed.
     stage.setOnCloseRequest(windowEvent -> {
       out.println("KILL");
-      System.out.println("KILL");
       stage.close();
     });
     Scene scene = new Scene(root, 560, 750);
@@ -58,6 +68,10 @@ public class Menu {
     stage.show();
   }
 
+  /**
+   * This method creates New Game window.
+   * @throws Exception Loading newGame.fxml
+   */
   private void newGame() throws Exception {
     //TODO uruchamia okno / dialog z wyborem gier
     Stage primaryStage = (Stage) layout.getScene().getWindow();
@@ -71,10 +85,7 @@ public class Menu {
     newGame.setSocket(socket);
     newGame.setServerAddress(serverAddress.getText());
     newGame.setPORT(PORT);
-    stage.setOnCloseRequest(windowEvent -> {
-      out.println("KILL");
-      System.out.println("KILL");
-    });
+    stage.setOnCloseRequest(windowEvent -> out.println("KILL"));
     Scene scene = new Scene(root, 300, 400);
     stage.setScene(scene);
     stage.setTitle("New Game");
@@ -92,7 +103,6 @@ public class Menu {
         socket.getInputStream()));
       out = new PrintWriter(socket.getOutputStream(), true);
       input = in.readLine();
-      System.out.println(input);
       if (input.equals("ADMINISTRATOR")) {
         newGame();
       } else if (input.equals("NORMAL BOARD")) {

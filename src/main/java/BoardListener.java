@@ -26,17 +26,33 @@ public class BoardListener extends Thread {
   private BufferedReader in;
 
   /**
-   * Status text field.
+   * Status label on Board.
    */
   private Label status;
+  /**
+   * Steps counter label on Board.
+   */
   private Label stepCounter;
+  /**
+   * Pane with color of current player.
+   */
   private Pane currentPlayer;
+  /**
+   * CheckBox with hints.
+   */
   private CheckBox hints;
+  /**
+   * Pane with player color.
+   */
   private Pane playersColor;
+  /**
+   * Table with all possible moves.
+   */
   private int[][] hintTable = new int[17][17];
-
+  /**
+   * Indicate initialization state.
+   */
   private boolean firstTime = true;
-
 
   BoardListener(Board board, BufferedReader in, Label status, Label stepCounter, Pane currentPlayer, CheckBox hints, Pane playersColor) {
     this.fields = board.getFields();
@@ -49,6 +65,10 @@ public class BoardListener extends Thread {
     this.playersColor = playersColor;
   }
 
+
+  /**
+   * Method with listener which changes board.
+   */
   @Override
   public void run() {
     String input;
@@ -56,9 +76,7 @@ public class BoardListener extends Thread {
     while (true) {
       try {
         input = in.readLine();
-        System.out.println("Komenda = " + input);
         if (input.startsWith("BOARD")) {
-          System.out.println(input);
           input = in.readLine();
           String finalInput = input;
           Platform.runLater(() -> {
@@ -69,57 +87,42 @@ public class BoardListener extends Thread {
 
           if (firstTime) {
             firstTime = false;
-
             for (int i = 0; i < board.getMyCircles().length; i++) {
               for (int j = 0; j < board.getMyCircles()[i].length; j++) {
                 if (fields[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()] > 1) {
                   int finalI = i;
                   int finalJ = j;
-                  Platform.runLater(() -> {
-                    board.getMyCircles()[finalI][finalJ].setStrokeColor(fields[board.getMyCircles()[finalI][finalJ].getX()][board.getMyCircles()[finalI][finalJ].getY()]);
-                  });
+                  Platform.runLater(() -> board.getMyCircles()[finalI][finalJ].setStrokeColor(fields[board.getMyCircles()[finalI][finalJ].getX()][board.getMyCircles()[finalI][finalJ].getY()]));
                 } else {
                   int finalI1 = i;
                   int finalJ1 = j;
-                  Platform.runLater(() -> {
-                    board.getMyCircles()[finalI1][finalJ1].setStrokeColor(1);
-                  });
+                  Platform.runLater(() -> board.getMyCircles()[finalI1][finalJ1].setStrokeColor(1));
                 }
                 int finalI2 = i;
                 int finalJ2 = j;
-                Platform.runLater(() -> {
-                  board.getMyCircles()[finalI2][finalJ2].setHomes();
-                });
+                Platform.runLater(() -> board.getMyCircles()[finalI2][finalJ2].setHomes());
               }
             }
-
-          }
-
-          for (int y = 0; y < 17; y++) {
-            for (int x = 0; x < 17; x++) {
-              System.out.print(board.getFields()[x][y] + " ");
-            }
-            System.out.println();
           }
 
         } else if (input.startsWith("PLAYER")) {
-          System.out.println(input);
           int finalPlayer = Integer.parseInt(input.substring(7, 8)) + 1;
           int nextPlayer = Integer.parseInt(input.substring(9, 10));
           String finalInput = "Player " + finalPlayer;
+
           Platform.runLater(() -> {
             status.setText(finalInput);
             setAppropriateColor(nextPlayer, currentPlayer);
           });
+
         } else if (input.startsWith("STEPS")) {
-          System.out.println(input);
           String[] finalInput1 = input.split(" ");
-          Platform.runLater(() -> {
-            stepCounter.setText("Step = " + finalInput1[1]);
-          });
+
+          Platform.runLater(() -> stepCounter.setText("Step = " + finalInput1[1]));
 
         } else if (input.startsWith("POS")) {
           input = in.readLine();
+
           Platform.runLater(() -> {
             board.refresh();
             for (int i = 0; i < board.getMyCircles().length; i++) {
@@ -132,6 +135,7 @@ public class BoardListener extends Thread {
               }
             }
           });
+
           if (hints.isSelected()) {
             setFieldsfromString(hintTable, input);
             for (int i = 0; i < board.getMyCircles().length; i++) {
@@ -139,19 +143,21 @@ public class BoardListener extends Thread {
                 if (hintTable[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()] == 1) {
                   int finalI = i;
                   int finalJ = j;
+
                   Platform.runLater(() -> {
                     board.getMyCircles()[finalI][finalJ].setStrokeWidth(5);
                     board.getMyCircles()[finalI][finalJ].setStroke(Color.GOLD);
                   });
-                  System.out.println("Zmieniam stroke. = " + hintTable[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()]);
+
                 }
               }
             }
           }
-          System.out.println(input);
         } else if (input.startsWith("YOURID")) {
           int finalId = Integer.parseInt(input.substring(7, 8));
+
           Platform.runLater(() -> setAppropriateColor(finalId, playersColor));
+
         } else if (input.startsWith("KILL")) {
           break;
         }
@@ -160,7 +166,7 @@ public class BoardListener extends Thread {
         System.exit(1);
       }
     }
-    System.out.println("Window is closed.");
+
     Platform.runLater(() -> {
       try {
         board.getSocket().close();
@@ -170,15 +176,21 @@ public class BoardListener extends Thread {
       }
       ((Stage) (board.layout.getScene().getWindow())).close();
     });
+
   }
 
+  /**
+   * This method set appropriate color to Pane.
+   * @param finalInt Number of color.
+   * @param pane  Changed pane.
+   */
   private void setAppropriateColor(int finalInt, Pane pane) {
     switch (finalInt) {
       case 2:
         pane.setStyle("-fx-background-color: #00008B;");
         break;
       case 3:
-        pane.setStyle("-fx-background-color: #FF0000;");
+        pane.setStyle("-fx-background-color: #DC143C;");
         break;
       case 4:
         pane.setStyle("-fx-background-color: #006400;");
@@ -195,6 +207,11 @@ public class BoardListener extends Thread {
     }
   }
 
+  /**
+   * This method convert string into table of ints.
+   * @param fields Table of ints.
+   * @param receive Received string.
+   */
   private void setFieldsfromString(int[][] fields, String receive) {
     int index = 0, distance;
     for (int i = 0; i < fields.length; i++) {

@@ -2,9 +2,21 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 class MyCircle extends Circle {
+  /**
+   * Coordinate x.
+   */
   private int x;
+  /**
+   * Coordinate y.
+   */
   private int y;
+  /**
+   * Stroke color of circle.
+   */
   private int strokeColor;
+  /**
+   * If this circle is clicked true.
+   */
   private boolean active = false;
 
   int getX() {
@@ -23,6 +35,10 @@ class MyCircle extends Circle {
     this.y = y;
   }
 
+  /**
+   * This method fills all circles.
+   * @param fillColor Value of color.
+   */
   void setFillColor(int fillColor) {
     switch (fillColor) {
       case 1:
@@ -32,7 +48,7 @@ class MyCircle extends Circle {
         setFill(Color.DARKBLUE);
         break;
       case 3:
-        setFill(Color.RED);
+        setFill(Color.CRIMSON);
         break;
       case 4:
         setFill(Color.DARKGREEN);
@@ -47,7 +63,7 @@ class MyCircle extends Circle {
         setFill(Color.SADDLEBROWN);
         break;
       case 20:
-        setFill(Color.LIGHTBLUE);
+        setFill(Color.DEEPSKYBLUE);
         break;
       case 30:
         setFill(Color.LIGHTCORAL);
@@ -68,7 +84,7 @@ class MyCircle extends Circle {
         setFill(Color.CORNFLOWERBLUE);
         break;
       case 300:
-        setFill(Color.CRIMSON);
+        setFill(Color.RED);
         break;
       case 400:
         setFill(Color.MEDIUMSEAGREEN);
@@ -85,6 +101,9 @@ class MyCircle extends Circle {
     }
   }
 
+  /**
+   * This method sets special stroke's color in bases.
+   */
   void setHomes() {
     switch (strokeColor) {
       case 1:
