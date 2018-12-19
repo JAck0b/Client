@@ -81,7 +81,7 @@ public class BoardListener extends Thread {
                 } else {
                   int finalI1 = i;
                   int finalJ1 = j;
-                  Platform.runLater(()-> {
+                  Platform.runLater(() -> {
                     board.getMyCircles()[finalI1][finalJ1].setStrokeColor(1);
                   });
                 }

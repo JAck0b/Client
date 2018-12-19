@@ -30,7 +30,7 @@ public class MenuTest {
   @Test
   public void settingHandler() {
     Menu menu = mock(Menu.class);
-    menu.settingHandler();
-    verify(menu).settingHandler();
+    menu.infoHandler();
+    verify(menu).infoHandler();
   }
 }

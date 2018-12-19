@@ -28,9 +28,11 @@ public class NewGame {
   @FXML
   Slider player;
   @FXML
-  Slider boot;
+  Slider bot;
   @FXML
   CheckBox checkBox;
+  @FXML
+  Slider hoops;
 
   @FXML
   public void initialize() {
@@ -38,16 +40,17 @@ public class NewGame {
       (observable, oldvalue, newvalue) ->
       {
         int i = newvalue.intValue();
-        boot.setMax(6 - i);
-        boot.setMin(i % 2);
-        boot.setValue(0);
-        boot.setMajorTickUnit(2);
+        bot.setMax(6 - i);
+        bot.setMin(i % 2);
+        bot.setValue(0);
+        bot.setMajorTickUnit(2);
       });
   }
 
   @FXML
   public void playHandler() {
-    out.println("NEW " + (int) player.getValue() + " " + (int) boot.getValue() + " " + ((checkBox.isSelected()) ? 1 : 0));
+    out.println("NEW " + (int) player.getValue() + " " + (int) bot.getValue() + " " + ((checkBox.isSelected()) ? 1 : 0)
+    + " " + (int)hoops.getValue());
     try {
       connectToGame();
     } catch (IOException e) {

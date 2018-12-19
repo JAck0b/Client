@@ -8,16 +8,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<VBox fx:id="layout" prefHeight="300.0" prefWidth="350.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.172-ea"
+<VBox fx:id="layout" prefHeight="500.0" prefWidth="350.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.172-ea"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="NewGame" style="-fx-background-color: #B87333">
     <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
     <Label style="-fx-font: 20 arial;" text="Player"/>
     <Slider fx:id="player" blockIncrement="1" cache="true" majorTickUnit="1" max="6" min="1" minorTickCount="0"
             showTickLabels="true" showTickMarks="false" snapToTicks="true" style="-fx-font-size: 20" value="1">
     </Slider>
-    <Label style="-fx-font: 20 arial;" text="Boot"/>
-    <Slider fx:id="boot" blockIncrement="1" cache="true" majorTickUnit="2" max="5" min="1" minorTickCount="0"
+    <Label style="-fx-font: 20 arial;" text="Bot"/>
+    <Slider fx:id="bot" blockIncrement="1" cache="true" majorTickUnit="2" max="5" min="1" minorTickCount="0"
             showTickLabels="true" showTickMarks="false" snapToTicks="true" style="-fx-font-size: 20" value="0">
+    </Slider>
+
+    <Label style="-fx-font: 20 arial;" text="Max hoops"/>
+    <Slider fx:id="hoops" blockIncrement="1" cache="true" majorTickUnit="1" max="9" min="1" minorTickCount="0"
+            showTickLabels="true" showTickMarks="false" snapToTicks="true" style="-fx-font-size: 20" value="6">
     </Slider>
     <!--<Label text="Long Hoops" style="-fx-font: 20 arial;"/>-->
     <HBox spacing="70">

@@ -2,7 +2,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -31,7 +33,7 @@ public class Menu {
 
 
   // TODO Zmienć modalność po testach
-  private void createBoard() throws IOException {
+  public void createBoard() throws IOException {
     Stage primaryStage = (Stage) layout.getScene().getWindow();
     Stage stage = new Stage();
     stage.initModality(Modality.NONE);
@@ -44,7 +46,7 @@ public class Menu {
     controller.setSocket(socket);
     stage.addEventHandler(WindowEvent.WINDOW_SHOWING, window -> controller.task());
     // When window is closed.
-    stage.setOnCloseRequest( windowEvent ->  {
+    stage.setOnCloseRequest(windowEvent -> {
       out.println("KILL");
       System.out.println("KILL");
       stage.close();
@@ -69,11 +71,11 @@ public class Menu {
     newGame.setSocket(socket);
     newGame.setServerAddress(serverAddress.getText());
     newGame.setPORT(PORT);
-    stage.setOnCloseRequest( windowEvent ->  {
+    stage.setOnCloseRequest(windowEvent -> {
       out.println("KILL");
       System.out.println("KILL");
     });
-    Scene scene = new Scene(root, 300, 330);
+    Scene scene = new Scene(root, 300, 400);
     stage.setScene(scene);
     stage.setTitle("New Game");
     stage.setResizable(false);
@@ -106,11 +108,30 @@ public class Menu {
 
   @FXML
   public void helpHandler() {
-
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Rules");
+    alert.setHeaderText(null);
+    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+    alert.setContentText("The aim is to race all one's pieces into the star corner on the opposite side of the board before opponents do the same." +
+      "The destination corner is called home. Each player has 10 pieces." +
+      "Each player starts with their colored pieces on one of the six points or corners of the star " +
+      "and attempts to race them all home into the opposite corner." +
+      "Players take turns moving a single piece, either by moving one step in any direction to an adjacent empty space, " +
+      "or by jumping in one or before selected number of available consecutive hops over other single pieces. " +
+      "A player may not combine hopping with a single-step move – a move consists of one or the other. " +
+      "There is no capturing in Chinese Checkers, so hopped pieces remain active and in play. " +
+      "Turns proceed clockwise around the board." +
+      "It's possible to turn on extended hoops.");
+    alert.showAndWait();
   }
 
   @FXML
-  public void settingHandler() {
+  public void infoHandler() {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Info");
+    alert.setHeaderText(null);
+    alert.setContentText("Copyright[2018] Jakub Pyka, Jakub Filistyński");
+    alert.showAndWait();
   }
 
   @FXML
