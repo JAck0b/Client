@@ -122,6 +122,10 @@ class MyCircle extends Circle {
     this.strokeColor = strokeColor;
   }
 
+  int getStrokeColor() {
+    return this.strokeColor;
+  }
+
   boolean isActive() {
     return active;
   }

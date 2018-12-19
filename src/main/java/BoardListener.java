@@ -38,7 +38,7 @@ public class BoardListener extends Thread {
   private boolean firstTime = true;
 
 
-  public BoardListener(Board board, BufferedReader in, Label status, Label stepCounter, Pane currentPlayer, CheckBox hints, Pane playersColor) {
+  BoardListener(Board board, BufferedReader in, Label status, Label stepCounter, Pane currentPlayer, CheckBox hints, Pane playersColor) {
     this.fields = board.getFields();
     this.board = board;
     this.in = in;
@@ -73,12 +73,23 @@ public class BoardListener extends Thread {
             for (int i = 0; i < board.getMyCircles().length; i++) {
               for (int j = 0; j < board.getMyCircles()[i].length; j++) {
                 if (fields[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()] > 1) {
-                  board.getMyCircles()[i][j].setStrokeColor(fields[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()]);
-//                  System.out.println("Change stroke. = " + fields[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()]);
+                  int finalI = i;
+                  int finalJ = j;
+                  Platform.runLater(() -> {
+                    board.getMyCircles()[finalI][finalJ].setStrokeColor(fields[board.getMyCircles()[finalI][finalJ].getX()][board.getMyCircles()[finalI][finalJ].getY()]);
+                  });
                 } else {
-                  board.getMyCircles()[i][j].setStrokeColor(1);
+                  int finalI1 = i;
+                  int finalJ1 = j;
+                  Platform.runLater(()-> {
+                    board.getMyCircles()[finalI1][finalJ1].setStrokeColor(1);
+                  });
                 }
-                board.getMyCircles()[i][j].setHomes();
+                int finalI2 = i;
+                int finalJ2 = j;
+                Platform.runLater(() -> {
+                  board.getMyCircles()[finalI2][finalJ2].setHomes();
+                });
               }
             }
 
@@ -99,26 +110,6 @@ public class BoardListener extends Thread {
           Platform.runLater(() -> {
             status.setText(finalInput);
             setAppropriateColor(nextPlayer, currentPlayer);
-//            switch (nextPlayer) {
-//              case 2:
-//                currentPlayer.setStyle("-fx-background-color: #00008B;");
-//                break;
-//              case 3:
-//                currentPlayer.setStyle("-fx-background-color: #FF0000;");
-//                break;
-//              case 4:
-//                currentPlayer.setStyle("-fx-background-color: #006400;");
-//                break;
-//              case 5:
-//                currentPlayer.setStyle("-fx-background-color: #008B8B;");
-//                break;
-//              case 6:
-//                currentPlayer.setStyle("-fx-background-color: #4B0082;");
-//                break;
-//              case 7:
-//                currentPlayer.setStyle("-fx-background-color: #8B4513;");
-//                break;
-//            }
           });
         } else if (input.startsWith("STEPS")) {
           System.out.println(input);
@@ -153,39 +144,14 @@ public class BoardListener extends Thread {
                     board.getMyCircles()[finalI][finalJ].setStroke(Color.GOLD);
                   });
                   System.out.println("Zmieniam stroke. = " + hintTable[board.getMyCircles()[i][j].getX()][board.getMyCircles()[i][j].getY()]);
-                } else {
-//                  board.getMyCircles()[i][j].setStrokeColor(1);
                 }
-//                board.getMyCircles()[i][j].setHomes();
               }
             }
           }
           System.out.println(input);
         } else if (input.startsWith("YOURID")) {
           int finalId = Integer.parseInt(input.substring(7, 8));
-          Platform.runLater(() -> {
-            setAppropriateColor(finalId, playersColor);
-//            switch (finalId) {
-//              case 2:
-//                playersColor.setStyle("-fx-background-color: #00008B;");
-//                break;
-//              case 3:
-//                playersColor.setStyle("-fx-background-color: #FF0000;");
-//                break;
-//              case 4:
-//                playersColor.setStyle("-fx-background-color: #006400;");
-//                break;
-//              case 5:
-//                playersColor.setStyle("-fx-background-color: #008B8B;");
-//                break;
-//              case 6:
-//                playersColor.setStyle("-fx-background-color: #4B0082;");
-//                break;
-//              case 7:
-//                playersColor.setStyle("-fx-background-color: #8B4513;");
-//                break;
-//            }
-          });
+          Platform.runLater(() -> setAppropriateColor(finalId, playersColor));
         } else if (input.startsWith("KILL")) {
           break;
         }
@@ -206,7 +172,7 @@ public class BoardListener extends Thread {
     });
   }
 
-  private void setAppropriateColor (int finalInt, Pane pane) {
+  private void setAppropriateColor(int finalInt, Pane pane) {
     switch (finalInt) {
       case 2:
         pane.setStyle("-fx-background-color: #00008B;");

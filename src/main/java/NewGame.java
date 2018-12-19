@@ -101,15 +101,31 @@ public class NewGame {
     this.out = out;
   }
 
+  PrintWriter getOut() {
+    return this.out;
+  }
+
   void setSocket(Socket socket) {
     this.socket = socket;
+  }
+
+  Socket getSocket() {
+    return this.socket;
   }
 
   void setServerAddress(String serverAddress) {
     this.serverAddress = serverAddress;
   }
 
+  String getServerAddress() {
+    return this.serverAddress;
+  }
+
   void setPORT(int PORT) {
     this.PORT = PORT;
+  }
+
+  int getPORT() {
+    return this.PORT;
   }
 }
